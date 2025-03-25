@@ -69,10 +69,12 @@ export const PathBreadCrumb = () => {
                     {/* Display intermediate paths if not using dropdown */}
                     {!showDropdown &&
                         paths.slice(1, -1).map((path, i) => (
-                            <BreadcrumbItem key={i}>
-                                <BreadcrumbLink href={path.url}>{path.path}</BreadcrumbLink>
+                            <div key={i} className="flex items-center gap-1">
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink href={path.url}>{path.path}</BreadcrumbLink>
+                                </BreadcrumbItem>
                                 <BreadcrumbSeparator />
-                            </BreadcrumbItem>
+                            </div>
                         ))}
 
                     {/* Always show last item as current page */}

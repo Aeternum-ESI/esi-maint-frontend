@@ -17,7 +17,6 @@ export type Technician = User & {
     };
 };
 export type Availability = {
-    technicianId: number;
     day: Day;
     startHour: number;
     endHour: number;

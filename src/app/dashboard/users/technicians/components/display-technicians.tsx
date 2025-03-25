@@ -22,6 +22,8 @@ import { toast } from "sonner";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { updateTechnicianAvailability, updateTechnicianProfession } from "@/app/actions/updateTechnician";
 
 export const DisplayTechnicians = ({
     technicians,
@@ -40,92 +42,6 @@ export const DisplayTechnicians = ({
 };
 
 const TechnicianCard = ({ technician, professions }: { technician: Technician; professions: Profession[] }) => {
-    const [isEditingProfession, setIsEditingProfession] = useState(false);
-    const [isEditingAvailabilities, setIsEditingAvailabilities] = useState(false);
-    const [selectedProfession, setSelectedProfession] = useState(technician.technicianData.profession?.id || 0);
-    const [availabilities, setAvailabilities] = useState([...(technician.technicianData.availabilities || [])]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    // Add/remove availability slots
-    const addAvailability = () => {
-        setAvailabilities([
-            ...availabilities,
-            { technicianId: technician.id, day: "MONDAY" as Day, startHour: 8, endHour: 17 },
-        ]);
-    };
-
-    const removeAvailability = (index: number) => {
-        setAvailabilities(availabilities.filter((_, i) => i !== index));
-    };
-
-    const updateAvailability = (index: number, field: keyof (typeof availabilities)[0], value: any) => {
-        const updated = [...availabilities];
-        updated[index] = { ...updated[index], [field]: value };
-        setAvailabilities(updated);
-    };
-
-    const saveProfession = async () => {
-        try {
-            setIsLoading(true);
-            // API call to update profession
-            // await $fetch(`/technicians/${technician.id}/profession`, {
-            //     method: "PUT",
-            //     auth: await getToken(),
-            //     body: JSON.stringify({ professionId: selectedProfession }),
-            // });
-
-            toast("Succès", {
-                description: "Profession mise à jour avec succès",
-            });
-            setIsEditingProfession(false);
-        } catch (error) {
-            console.error("Failed to update profession:", error);
-            toast("Erreur", {
-                description: "Impossible de mettre à jour la profession",
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const saveAvailabilities = async () => {
-        try {
-            setIsLoading(true);
-            // API call to update availabilities
-            // await $fetch(`/technicians/${technician.id}/availabilities`, {
-            //     method: "PUT",
-            //     auth: await getToken(),
-            //     body: JSON.stringify({ availabilities }),
-            // });
-
-            toast("Succès", {
-                description: "Disponibilités mises à jour avec succès",
-            });
-            setIsEditingAvailabilities(false);
-        } catch (error) {
-            console.error("Failed to update availabilities:", error);
-            toast("Erreur", {
-                description: "Impossible de mettre à jour les disponibilités",
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    // Function to display day in French
-    const formatDay = (day: Day) => {
-        const dayMap: Record<Day, string> = {
-            MONDAY: "Lundi",
-            TUESDAY: "Mardi",
-            WEDNESDAY: "Mercredi",
-            THURSDAY: "Jeudi",
-            FRIDAY: "Vendredi",
-            SATURDAY: "Samedi",
-            SUNDAY: "Dimanche",
-        };
-        return dayMap[day];
-    };
-
     return (
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="pb-2">
@@ -175,264 +91,351 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
             </CardContent>
 
             <CardFooter>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="outline" className="w-full">
-                            Voir les détails
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle className="flex items-center">
-                                <User className="h-5 w-5 mr-2" />
-                                {technician.name}
-                            </DialogTitle>
-                            <DialogDescription>Informations complètes du technicien</DialogDescription>
-                        </DialogHeader>
-                        <div className="py-4 space-y-4">
-                            <div className="grid grid-cols-[100px_1fr] items-center">
-                                <span className="font-semibold">Email:</span>
-                                <span>{technician.email}</span>
-                            </div>
-                            <div className="grid grid-cols-[100px_1fr] items-center">
-                                <span className="font-semibold">Téléphone:</span>
-                                <span>{technician.technicianData.phoneNumber || "Non spécifié"}</span>
-                            </div>
-                            <div className="grid grid-cols-[100px_1fr] items-center">
-                                <span className="font-semibold">Statut:</span>
-                                <Badge variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}>
-                                    {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
-                                </Badge>
-                            </div>
-
-                            {/* Profession Section */}
-                            <div className="border-t pt-3">
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="font-semibold">Profession:</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => setIsEditingProfession(!isEditingProfession)}
-                                        className="h-8 px-2"
-                                        disabled={isLoading}
-                                    >
-                                        <Edit className="h-4 w-4 mr-1" />
-                                        {isEditingProfession ? "Annuler" : "Modifier"}
-                                    </Button>
-                                </div>
-
-                                {isEditingProfession ? (
-                                    <div className="space-y-3">
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button variant="outline" size="sm" className="ml-2 h-8 gap-1">
-                                                    <Filter className="h-3.5 w-3.5" />
-                                                    <span>Filter</span>
-
-                                                    <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-50" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-[200px] p-0">
-                                                <Command>
-                                                    <CommandInput placeholder="Search role..." />
-                                                    <CommandEmpty>No role found.</CommandEmpty>
-                                                    <CommandGroup>
-                                                        {professions.map((profession) => (
-                                                            <CommandItem
-                                                                key={profession.id}
-                                                                value={profession.name}
-                                                                onSelect={(value) => {}}
-                                                            >
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-2 h-4 w-4",
-                                                                        technician.technicianData.profession.name ===
-                                                                            profession.name
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                                {profession.name}
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </Command>
-                                            </PopoverContent>
-                                        </Popover>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        {technician.technicianData.profession ? (
-                                            <Badge className="px-3 py-1">
-                                                <Briefcase className="h-3 w-3 mr-1" />
-                                                {technician.technicianData.profession.name}
-                                            </Badge>
-                                        ) : (
-                                            <span className="text-sm text-gray-500">Non spécifiée</span>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Availabilities Section */}
-                            <div className="border-t pt-3">
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="font-semibold">Disponibilités:</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => setIsEditingAvailabilities(!isEditingAvailabilities)}
-                                        className="h-8 px-2"
-                                        disabled={isLoading}
-                                    >
-                                        <Edit className="h-4 w-4 mr-1" />
-                                        {isEditingAvailabilities ? "Annuler" : "Modifier"}
-                                    </Button>
-                                </div>
-
-                                {isEditingAvailabilities ? (
-                                    <div className="space-y-4">
-                                        {availabilities.map((availability, index) => (
-                                            <div
-                                                key={index}
-                                                className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-center"
-                                            >
-                                                <Select
-                                                    value={availability.day}
-                                                    onValueChange={(value) =>
-                                                        updateAvailability(index, "day", value as Day)
-                                                    }
-                                                    disabled={isLoading}
-                                                >
-                                                    <SelectTrigger>
-                                                        <SelectValue />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="MONDAY">{formatDay("MONDAY")}</SelectItem>
-                                                        <SelectItem value="TUESDAY">{formatDay("TUESDAY")}</SelectItem>
-                                                        <SelectItem value="WEDNESDAY">
-                                                            {formatDay("WEDNESDAY")}
-                                                        </SelectItem>
-                                                        <SelectItem value="THURSDAY">
-                                                            {formatDay("THURSDAY")}
-                                                        </SelectItem>
-                                                        <SelectItem value="FRIDAY">{formatDay("FRIDAY")}</SelectItem>
-                                                        <SelectItem value="SATURDAY">
-                                                            {formatDay("SATURDAY")}
-                                                        </SelectItem>
-                                                        <SelectItem value="SUNDAY">{formatDay("SUNDAY")}</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-
-                                                <div className="relative">
-                                                    <Input
-                                                        type="number"
-                                                        min="0"
-                                                        max="23"
-                                                        value={availability.startHour}
-                                                        onChange={(e) =>
-                                                            updateAvailability(
-                                                                index,
-                                                                "startHour",
-                                                                parseInt(e.target.value)
-                                                            )
-                                                        }
-                                                        className="w-full pr-5"
-                                                        disabled={isLoading}
-                                                    />
-                                                    <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
-                                                        h
-                                                    </span>
-                                                </div>
-
-                                                <div className="relative">
-                                                    <Input
-                                                        type="number"
-                                                        min="0"
-                                                        max="23"
-                                                        value={availability.endHour}
-                                                        onChange={(e) =>
-                                                            updateAvailability(
-                                                                index,
-                                                                "endHour",
-                                                                parseInt(e.target.value)
-                                                            )
-                                                        }
-                                                        className="w-full pr-5"
-                                                        disabled={isLoading}
-                                                    />
-                                                    <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
-                                                        h
-                                                    </span>
-                                                </div>
-
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() => removeAvailability(index)}
-                                                    className="px-2"
-                                                    disabled={isLoading}
-                                                >
-                                                    &times;
-                                                </Button>
-                                            </div>
-                                        ))}
-                                        <div className="flex space-x-2">
-                                            <Button
-                                                variant="outline"
-                                                onClick={addAvailability}
-                                                className="flex-1"
-                                                disabled={isLoading}
-                                            >
-                                                + Ajouter
-                                            </Button>
-                                            <Button
-                                                onClick={saveAvailabilities}
-                                                className="flex-1"
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading ? "Enregistrement..." : "Enregistrer"}
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <>
-                                        {availabilities.length > 0 ? (
-                                            <div className="ml-2 space-y-1">
-                                                {availabilities.map((availability, index) => (
-                                                    <div key={index} className="flex items-center text-sm">
-                                                        <Clock className="h-3 w-3 mr-1" />
-                                                        <span>
-                                                            {formatDay(availability.day)}: {availability.startHour}h -{" "}
-                                                            {availability.endHour}h
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <span className="text-sm text-gray-500">
-                                                Aucune disponibilité spécifiée
-                                            </span>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-
-                            <div className="border-t pt-3">
-                                <div className="grid grid-cols-[100px_1fr] items-center">
-                                    <span className="font-semibold">Créé le:</span>
-                                    <span>{new Date(technician.technicianData.createdAt).toLocaleDateString()}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <DialogTrigger>
-                            <DialogFooter>
-                                <Button variant="outline">Fermer</Button>
-                            </DialogFooter>
-                        </DialogTrigger>
-                    </DialogContent>
-                </Dialog>
+                <TechnicianDetails technician={technician} professions={professions} />
             </CardFooter>
         </Card>
+    );
+};
+
+export const TechnicianDetails = ({
+    technician,
+    professions,
+}: {
+    technician: Technician;
+    professions: Profession[];
+}) => {
+    const [isEditingAvailabilities, setIsEditingAvailabilities] = useState(false);
+    const [selectedProfession, setSelectedProfession] = useState(technician.technicianData.profession?.id || 0);
+    const [availabilities, setAvailabilities] = useState([...(technician.technicianData.availabilities || [])]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Store original availabilities for cancellation
+    const originalAvailabilities = [...(technician.technicianData.availabilities || [])];
+
+    // Add/remove availability slots
+    const addAvailability = () => {
+        // Find a day that hasn't been used yet
+        const usedDays = availabilities.map((a) => a.day);
+        const availableDays: Day[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+        const unusedDays = availableDays.filter((day) => !usedDays.includes(day));
+
+        // If there are no unused days, don't add a new slot
+        if (unusedDays.length === 0) {
+            toast("Attention", {
+                description: "Tous les jours sont déjà utilisés",
+            });
+            return;
+        }
+
+        // Add a new availability with the first unused day
+        setAvailabilities([...availabilities, { day: unusedDays[0], startHour: 8, endHour: 17 }]);
+    };
+
+    const removeAvailability = (index: number) => {
+        setAvailabilities(availabilities.filter((_, i) => i !== index));
+    };
+
+    const updateAvailability = (index: number, field: keyof (typeof availabilities)[0], value: any) => {
+        // If updating the day, check if it's already used
+        if (field === "day") {
+            const existingDayIndex = availabilities.findIndex((a, i) => i !== index && a.day === value);
+            if (existingDayIndex !== -1) {
+                toast("Erreur", {
+                    description: `${formatDay(value as Day)} est déjà utilisé`,
+                });
+                return;
+            }
+        }
+
+        const updated = [...availabilities];
+        updated[index] = { ...updated[index], [field]: value };
+        setAvailabilities(updated);
+    };
+
+    const saveProfession = async (technicianId: number, professionId: number) => {
+        const error = await updateTechnicianProfession(technicianId, professionId);
+        if (error) {
+            console.error("Failed to update profession:", error);
+            return toast("Erreur", {
+                description: "Impossible de mettre à jour la profession",
+            });
+        }
+        toast("Succès", {
+            description: "Profession mise à jour avec succès",
+        });
+    };
+
+    const saveAvailabilities = async () => {
+        try {
+            setIsLoading(true);
+
+            const mappedAvailabilities = availabilities.map((availability) => {
+                return {
+                    day: availability.day,
+                    startHour: availability.startHour,
+                    endHour: availability.endHour,
+                };
+            });
+            await updateTechnicianAvailability(technician.id, mappedAvailabilities);
+            toast("Succès", {
+                description: "Disponibilités mises à jour avec succès ",
+            });
+            setIsEditingAvailabilities(false);
+        } catch (error) {
+            console.error("Failed to update availabilities:", error);
+            toast("Erreur", {
+                description: "Impossible de mettre à jour les disponibilités",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Function to display day in French
+    const formatDay = (day: Day) => {
+        const dayMap: Record<Day, string> = {
+            MONDAY: "Lundi",
+            TUESDAY: "Mardi",
+            WEDNESDAY: "Mercredi",
+            THURSDAY: "Jeudi",
+            FRIDAY: "Vendredi",
+            SATURDAY: "Samedi",
+            SUNDAY: "Dimanche",
+        };
+        return dayMap[day];
+    };
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">
+                    Voir les détails
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center">
+                        <User className="h-5 w-5 mr-2" />
+                        {technician.name}
+                    </DialogTitle>
+                    <DialogDescription>Informations complètes du technicien</DialogDescription>
+                </DialogHeader>
+                <div className="py-4 space-y-4">
+                    <div className="grid grid-cols-[100px_1fr] items-center">
+                        <span className="font-semibold">Email:</span>
+                        <span>{technician.email}</span>
+                    </div>
+                    <div className="grid grid-cols-[100px_1fr] items-center">
+                        <span className="font-semibold">Téléphone:</span>
+                        <span>{technician.technicianData.phoneNumber || "Non spécifié"}</span>
+                    </div>
+                    <div className="grid grid-cols-[100px_1fr] items-center">
+                        <span className="font-semibold">Statut:</span>
+                        <Badge variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}>
+                            {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
+                        </Badge>
+                    </div>
+
+                    {/* Profession Section */}
+                    <div className="border-t pt-3">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="font-semibold">Profession:</span>
+                            <Popover>
+                                <PopoverTrigger asChild className="[&>span]:truncate py-5">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="ml-2 flex justify-between h-8 gap-1 w-42 "
+                                    >
+                                        <span>{professions.find((e) => e.id === selectedProfession)?.name}</span>
+
+                                        <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[200px] p-0">
+                                    <Command autoSave="true">
+                                        <CommandInput placeholder="Rechercher ..." />
+                                        <CommandEmpty>No role found.</CommandEmpty>
+
+                                        <CommandGroup>
+                                            {professions.map((profession) => (
+                                                <PopoverClose key={profession.id} className="w-full h-full">
+                                                    <CommandItem
+                                                        value={profession.name}
+                                                        onSelect={async () => {
+                                                            setSelectedProfession(profession.id);
+                                                            await saveProfession(technician.id, profession.id);
+                                                        }}
+                                                    >
+                                                        <Check
+                                                            className={cn(
+                                                                "mr-2 h-4 w-4",
+                                                                selectedProfession === profession.id
+                                                                    ? "opacity-100"
+                                                                    : "opacity-0"
+                                                            )}
+                                                        />
+                                                        {profession.name}
+                                                    </CommandItem>
+                                                </PopoverClose>
+                                            ))}
+                                        </CommandGroup>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </div>
+
+                    {/* Availabilities Section */}
+                    <div className="border-t pt-3">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="font-semibold">Disponibilités:</span>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                    if (isEditingAvailabilities) {
+                                        // Cancel: reset to original state
+                                        setAvailabilities([...originalAvailabilities]);
+                                    }
+                                    setIsEditingAvailabilities(!isEditingAvailabilities);
+                                }}
+                                className="h-8 px-2"
+                                disabled={isLoading}
+                            >
+                                <Edit className="h-4 w-4 mr-1" />
+                                {isEditingAvailabilities ? "Annuler" : "Modifier"}
+                            </Button>
+                        </div>
+
+                        {isEditingAvailabilities ? (
+                            <div className="space-y-4">
+                                {availabilities.map((availability, index) => (
+                                    <div key={index} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-center">
+                                        <Select
+                                            value={availability.day}
+                                            onValueChange={(value) => updateAvailability(index, "day", value as Day)}
+                                            disabled={isLoading}
+                                        >
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {(
+                                                    [
+                                                        "MONDAY",
+                                                        "TUESDAY",
+                                                        "WEDNESDAY",
+                                                        "THURSDAY",
+                                                        "FRIDAY",
+                                                        "SATURDAY",
+                                                        "SUNDAY",
+                                                    ] as Day[]
+                                                ).map((day) => (
+                                                    <SelectItem
+                                                        key={day}
+                                                        value={day}
+                                                        disabled={availabilities.some(
+                                                            (a, i) => i !== index && a.day === day
+                                                        )}
+                                                    >
+                                                        {formatDay(day)}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+
+                                        <div className="relative">
+                                            <Input
+                                                type="number"
+                                                min="0"
+                                                max="23"
+                                                value={availability.startHour}
+                                                onChange={(e) =>
+                                                    updateAvailability(index, "startHour", parseInt(e.target.value))
+                                                }
+                                                className="w-full pr-5"
+                                                disabled={isLoading}
+                                            />
+                                            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
+                                                h
+                                            </span>
+                                        </div>
+
+                                        <div className="relative">
+                                            <Input
+                                                type="number"
+                                                min="0"
+                                                max="23"
+                                                value={availability.endHour}
+                                                onChange={(e) =>
+                                                    updateAvailability(index, "endHour", parseInt(e.target.value))
+                                                }
+                                                className="w-full pr-5"
+                                                disabled={isLoading}
+                                            />
+                                            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
+                                                h
+                                            </span>
+                                        </div>
+
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            onClick={() => removeAvailability(index)}
+                                            className="px-2"
+                                            disabled={isLoading}
+                                        >
+                                            &times;
+                                        </Button>
+                                    </div>
+                                ))}
+                                <div className="flex space-x-2">
+                                    <Button
+                                        variant="outline"
+                                        onClick={addAvailability}
+                                        className="flex-1"
+                                        disabled={isLoading || availabilities.length >= 7}
+                                    >
+                                        + Ajouter
+                                    </Button>
+                                    <Button onClick={saveAvailabilities} className="flex-1" disabled={isLoading}>
+                                        {isLoading ? "Enregistrement..." : "Enregistrer"}
+                                    </Button>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                {availabilities.length > 0 ? (
+                                    <div className="ml-2 space-y-1">
+                                        {availabilities.map((availability, index) => (
+                                            <div key={index} className="flex items-center text-sm">
+                                                <Clock className="h-3 w-3 mr-1" />
+                                                <span>
+                                                    {formatDay(availability.day)}: {availability.startHour}h -{" "}
+                                                    {availability.endHour}h
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <span className="text-sm text-gray-500">Aucune disponibilité spécifiée</span>
+                                )}
+                            </>
+                        )}
+                    </div>
+
+                    <div className="border-t pt-3">
+                        <div className="grid grid-cols-[100px_1fr] items-center">
+                            <span className="font-semibold">Créé le:</span>
+                            <span>{new Date(technician.technicianData.createdAt).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button variant="outline">Fermer</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };
