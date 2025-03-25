@@ -31,3 +31,5 @@ async function Page() {
         </Tabs>
     );
 }
+
+export default Page;

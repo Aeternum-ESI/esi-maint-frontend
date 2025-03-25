@@ -12,6 +12,8 @@ export type Technician = User & {
         userId: number;
         availabilities: Availability[];
         profession: Profession;
+        createdAt: string;
+        phoneNumber: number;
     };
 };
 export type Availability = {

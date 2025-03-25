@@ -27,7 +27,7 @@ async function Page() {
             </TabsList>
             <TabsContent value="Tous" className="h-full ">
                 <Card className="h-[calc(100vh-9rem)]">
-                    <DisplayTechnicians technicians={technicians} />
+                    <DisplayTechnicians technicians={technicians} professions={professions} />
                 </Card>
             </TabsContent>
             <TabsContent value="Demandes">

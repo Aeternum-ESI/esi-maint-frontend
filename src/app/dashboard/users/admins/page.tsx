@@ -14,7 +14,6 @@ async function Page() {
 
     const admins = users.filter((user) => user.role === "ADMIN" && user.approvalStatus === "VALIDATED");
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     return (
         <div className="w-full h-full p-4">
             <Card className="w-full max-h-[calc(100vh-4rem)] h-full overflow-scroll">
