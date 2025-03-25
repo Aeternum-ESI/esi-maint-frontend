@@ -31,15 +31,15 @@ const data = {
             items: [
                 {
                     title: "Tous",
-                    url: "all",
+                    url: "/dashboard/users/all",
                 },
                 {
                     title: "Administrateurs",
-                    url: "admins",
+                    url: "/dashboard/users/admins",
                 },
                 {
                     title: "Techniciens",
-                    url: "technicians",
+                    url: "/dashboard/users/technicians",
                 },
             ],
         },

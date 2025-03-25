@@ -34,7 +34,9 @@ export const Notifications = async () => {
                             <Bell size={28} />
                             {notifcations.some((notifcations) => !notifcations.read) && (
                                 <div className="w-4 h-4 bg-error absolute -top-1 -right-1 rounded-full flex items-center justify-center text-xs text-isabelline">
-                                    {notifcations.length}
+                                    {notifcations.filter((notifcations) => !notifcations.read).length > 9
+                                        ? "9+"
+                                        : notifcations.filter((notifcations) => !notifcations.read).length}
                                 </div>
                             )}
                         </div>
