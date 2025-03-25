@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { $fetch } from "../fetch";
 import { getToken } from "../getToken";
-import { $fetch } from "./fetch";
 
 export const createProfession = async (name: string) => {
     const { data, error } = await $fetch("/professions", {
@@ -24,6 +24,7 @@ export const deleteProfession = async (id: number) => {
         auth: await getToken(),
     });
     if (error) console.log(error);
+    revalidatePath("/dashboard/users/technicians");
 };
 
 export const updateProfession = async (id: number, name: string) => {
@@ -35,4 +36,5 @@ export const updateProfession = async (id: number, name: string) => {
         auth: await getToken(),
     });
     if (error) console.log(error);
+    revalidatePath("/dashboard/users/technicians");
 };

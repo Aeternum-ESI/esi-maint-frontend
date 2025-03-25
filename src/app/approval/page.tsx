@@ -1,10 +1,10 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { getUser } from "../actions/get-user";
-import { redirect } from "next/navigation";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
-import { $fetch } from "../actions/fetch";
+import { redirect } from "next/navigation";
+import { getUser } from "../actions/get-user";
+import { $fetch } from "../fetch";
 import { getToken } from "../getToken";
 
 export default async function Approval() {

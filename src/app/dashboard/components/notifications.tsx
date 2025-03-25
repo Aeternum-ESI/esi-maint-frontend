@@ -1,4 +1,4 @@
-import { $fetch } from "@/app/actions/fetch";
+import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 import { User } from "@/lib/types";
 import { cookies } from "next/headers";
-import { $fetch } from "./fetch";
+import { $fetch } from "../fetch";
 
 export const getUser = async () => {
     const token = (await cookies()).get("access_token");

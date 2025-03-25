@@ -1,19 +1,23 @@
-import { $fetch } from "@/app/actions/fetch";
+import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Profession, Technician } from "@/lib/types";
 import { DisplayProfessions } from "./components/display-professions";
+import { DisplayTechnicians } from "./components/display-technicians";
 
 async function Page() {
     const { data } = await $fetch("/professions", {
         auth: await getToken(),
     });
 
-    const professions: {
-        id: number;
-        name: string;
-    }[] = data?.data;
+    const professions: Profession[] = data?.data ?? [];
+
+    const response = await $fetch("/technicians", {
+        auth: await getToken(),
+    });
+
+    const technicians: Technician[] = response.data?.data ?? [];
 
     return (
         <Tabs defaultValue="Tous" className="p-4 h-full">
@@ -22,7 +26,9 @@ async function Page() {
                 <TabsTrigger value="Demandes">Professions</TabsTrigger>
             </TabsList>
             <TabsContent value="Tous" className="h-full ">
-                <Card className="h-[calc(100vh-9rem)]"></Card>
+                <Card className="h-[calc(100vh-9rem)]">
+                    <DisplayTechnicians technicians={technicians} />
+                </Card>
             </TabsContent>
             <TabsContent value="Demandes">
                 <Card className="h-[calc(100vh-9rem)] overflow-scroll">

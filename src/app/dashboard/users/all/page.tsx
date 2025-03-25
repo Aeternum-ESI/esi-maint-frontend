@@ -1,11 +1,11 @@
-import { $fetch } from "@/app/actions/fetch";
+import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@/lib/types";
 import { AllUsers, ValidateUsers } from "./components/all-users";
 
-export async function Page() {
+async function Page() {
     const { data } = await $fetch("users", {
         auth: await getToken(),
     });
@@ -31,5 +31,3 @@ export async function Page() {
         </Tabs>
     );
 }
-
-export default Page;

@@ -1,8 +1,5 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { $fetch } from "./app/actions/fetch";
-import { User } from "./lib/types";
-import { getToken } from "./app/getToken";
 import { getUser } from "./app/actions/get-user";
 
 // export async function middleware(req: NextRequest) {

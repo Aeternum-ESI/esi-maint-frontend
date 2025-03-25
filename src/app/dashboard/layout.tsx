@@ -6,7 +6,7 @@ import { AppSidebar } from "./components/AppSideBar";
 import { NavUser } from "./components/nav-user";
 import { Notifications } from "./components/notifications";
 import { PathBreadCrumb } from "./components/path-bradcrumb";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     const user = await getUser();

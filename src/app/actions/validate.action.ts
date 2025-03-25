@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { $fetch } from "../fetch";
 import { getToken } from "../getToken";
-import { $fetch } from "./fetch";
 
 export const validate = async (userId: number, validated: boolean) => {
     const { error } = await $fetch(`users/${userId}/validate`, {

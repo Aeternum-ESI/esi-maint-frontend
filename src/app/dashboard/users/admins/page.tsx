@@ -1,11 +1,9 @@
-import { $fetch } from "@/app/actions/fetch";
+import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
-import { User } from "@/lib/types";
 
-import Image from "next/image";
-import { AdminTable } from "./componets/admin-table";
 import { Card } from "@/components/ui/card";
+import { User } from "@/lib/types";
+import { AdminTable } from "./componets/admin-table";
 
 async function Page() {
     const { data } = await $fetch("users", {
@@ -15,6 +13,8 @@ async function Page() {
     const users: User[] = data?.data;
 
     const admins = users.filter((user) => user.role === "ADMIN" && user.approvalStatus === "VALIDATED");
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     return (
         <div className="w-full h-full p-4">
             <Card className="w-full max-h-[calc(100vh-4rem)] h-full overflow-scroll">
