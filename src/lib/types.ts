@@ -27,3 +27,13 @@ export type Profession = {
     id: number;
     name: string;
 };
+
+export type Category = {
+    id: number;
+    name: string;
+    description: string;
+    parentId: number | null;
+    createdAt: string;
+    updatedAt: string;
+    children: Category[];
+};

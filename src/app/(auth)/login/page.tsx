@@ -20,7 +20,7 @@ const LoginPage = () => {
                 <Card className="max-w-[600px] w-[calc(100%-4rem)] opacity-100 h-[400px]">
                     <CardHeader className="flex items-center text-base flex-col">
                         <div className="flex items-center gap-2">
-                            <Image src={"/static/grayLogo.png"} className="w-10 " alt="" width={400} height={400} />
+                            <Image src={"/static/grayLogo.svg"} className="w-10 " alt="" width={400} height={400} />
                             <p className="font-semibold text-xl">
                                 <span className="text-persian-green">ESI</span>Maint
                             </p>

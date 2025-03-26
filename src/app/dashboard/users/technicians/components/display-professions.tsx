@@ -22,31 +22,12 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
     const [roleFilter, setRoleFilter] = useState<string>("");
     const [pendingOperations, setPendingOperations] = useState<Record<number, "updating" | "deleting" | null>>({});
     const inputRef = useRef<HTMLInputElement>(null);
-    const editContainerRef = useRef<HTMLDivElement>(null);
 
     // When editing mode is activated, focus the input
     useEffect(() => {
         if (editingId !== null && inputRef.current) {
             inputRef.current.focus();
         }
-    }, [editingId]);
-
-    // Handle clicks outside the edit input
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                editingId !== null &&
-                editContainerRef.current &&
-                !editContainerRef.current.contains(event.target as Node)
-            ) {
-                cancelEditing();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
     }, [editingId]);
 
     const startEditing = (profession: { id: number; name: string }) => {
@@ -90,6 +71,7 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
 
     // Optimistic update for editing a profession
     const saveEdit = async (id: number) => {
+        console.log(editValue);
         if (!editValue.trim() || pendingOperations[id]) return;
 
         // Store the original value in case we need to revert
@@ -99,10 +81,8 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
         // Update locally first (optimistic) before exiting edit mode or marking as pending
         setProfessions((prev) => prev.map((p) => (p.id === id ? { ...p, name: editValue } : p)));
 
-        // Exit edit mode before marking as pending to ensure UI consistency
+        // Exit edit mode and mark as updating simultaneously
         setEditingId(null);
-
-        // Mark this profession as updating (after local update and exiting edit mode)
         setPendingOperations((prev) => ({ ...prev, [id]: "updating" }));
 
         try {
@@ -117,6 +97,17 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
             toast("Failed to update profession", {
                 description: "There was an error updating the profession. Please try again.",
             });
+        }
+    };
+
+    // Add this new keyboard event handler function
+    const handleEditKeyDown = (e: React.KeyboardEvent, id: number) => {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission
+            saveEdit(id);
+        } else if (e.key === "Escape") {
+            e.preventDefault();
+            cancelEditing();
         }
     };
 
@@ -252,16 +243,13 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
                         >
                             <div className="flex justify-between items-center">
                                 {editingId === profession.id ? (
-                                    <div ref={editContainerRef} className="flex-1 pr-2">
+                                    <div className="flex-1 pr-2">
                                         <input
                                             ref={inputRef}
                                             value={editValue}
                                             onChange={(e) => setEditValue(e.target.value)}
                                             className="w-full text-sm font-medium bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 px-1"
-                                            onKeyDown={(e) => {
-                                                if (e.key === "Enter") saveEdit(profession.id);
-                                                if (e.key === "Escape") cancelEditing();
-                                            }}
+                                            onKeyDown={(e) => handleEditKeyDown(e, profession.id)}
                                         />
                                     </div>
                                 ) : (
@@ -273,7 +261,6 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
                                         onClick={() => !isPending && startEditing(profession)}
                                     >
                                         {profession.name}
-                                        {isPending && " ..."}
                                     </span>
                                 )}
                                 <div className="flex space-x-2">
@@ -282,7 +269,11 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => saveEdit(profession.id)}
+                                                onClick={async (e) => {
+                                                    e.preventDefault();
+
+                                                    await saveEdit(profession.id);
+                                                }}
                                                 disabled={isPending}
                                             >
                                                 Save

@@ -43,7 +43,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
 
     return (
         <>
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 px-4">
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="outline" size="icon">
@@ -84,20 +84,20 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                 <Input
                     placeholder="Rechercher un admin"
                     value={search}
-                    className="w-96"
+                    className="w-96 "
                     onChange={(e) => {
                         setSearch(e.target.value);
                     }}
                 />
             </div>
             <Table className="w-[calc(100%-2rem)] mx-auto h-full ">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Nom </TableHead>
-                        <TableHead className="max-lg:hidden">Email</TableHead>
-                        <TableHead className="max-sm:hidden">Role</TableHead>
-                        <TableHead className="max-lg:hidden">Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                <TableHeader className="h-12">
+                    <TableRow className="  text-white ">
+                        <TableHead className=" text-white bg-grey-blue rounded-tl-lg">Nom </TableHead>
+                        <TableHead className=" text-white max-lg:hidden bg-grey-blue">Email</TableHead>
+                        <TableHead className="text-white max-sm:hidden bg-grey-blue">Role</TableHead>
+                        <TableHead className="text-white max-lg:hidden bg-grey-blue">Status</TableHead>
+                        <TableHead className="text-white text-right bg-grey-blue rounded-tr-lg">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

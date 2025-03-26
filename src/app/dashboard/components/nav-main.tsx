@@ -14,6 +14,9 @@ import {
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { use } from "react";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
     items,
@@ -30,6 +33,9 @@ export function NavMain({
         }[];
     }[];
 }) {
+    const path = usePathname();
+
+    console.log(path);
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -42,7 +48,12 @@ export function NavMain({
                                 <SidebarMenuButton asChild tooltip={item.title}>
                                     <Link href={item.url}>
                                         {item.icon && <item.icon size={40} className="scale-130" />}
-                                        <span>{item.title}</span>
+                                        <span className="min-h-full relative ">
+                                            {item.title}
+                                            {path == item.url && (
+                                                <div className="absolute left-0 bottom-0 w-full  h-[2px] rounded-full bg-attention z-[5]" />
+                                            )}
+                                        </span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
@@ -51,7 +62,12 @@ export function NavMain({
 
                     // For collapsible items, use the Collapsible component structure
                     return (
-                        <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
+                        <Collapsible
+                            key={item.title}
+                            asChild
+                            defaultOpen={item.isActive}
+                            className="group/collapsible "
+                        >
                             <SidebarMenuItem>
                                 <CollapsibleTrigger asChild>
                                     <SidebarMenuButton tooltip={item.title}>
@@ -62,15 +78,25 @@ export function NavMain({
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                                     <SidebarMenuSub>
-                                        {item.items?.map((subItem) => (
-                                            <SidebarMenuSubItem key={subItem.title}>
-                                                <SidebarMenuSubButton asChild>
-                                                    <Link href={subItem.url}>
-                                                        <span>{subItem.title}</span>
-                                                    </Link>
-                                                </SidebarMenuSubButton>
-                                            </SidebarMenuSubItem>
-                                        ))}
+                                        {item.items?.map((subItem) => {
+                                            return (
+                                                <SidebarMenuSubItem key={subItem.title}>
+                                                    <SidebarMenuSubButton asChild>
+                                                        <Link
+                                                            href={subItem.url}
+                                                            className={"relative  overflow-visible"}
+                                                        >
+                                                            <span className="relative overflow-visible h-full">
+                                                                {subItem.title}
+                                                                {path == subItem.url && (
+                                                                    <div className="absolute left-0 bottom-2 w-full  h-[2px] rounded-full bg-attention z-[5]" />
+                                                                )}
+                                                            </span>
+                                                        </Link>
+                                                    </SidebarMenuSubButton>
+                                                </SidebarMenuSubItem>
+                                            );
+                                        })}
                                     </SidebarMenuSub>
                                 </CollapsibleContent>
                             </SidebarMenuItem>

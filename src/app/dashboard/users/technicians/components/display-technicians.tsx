@@ -214,7 +214,7 @@ export const TechnicianDetails = ({
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center">
+                    <DialogTitle className="flex items-center max-sm:justify-center">
                         <User className="h-5 w-5 mr-2" />
                         {technician.name}
                     </DialogTitle>
@@ -432,9 +432,11 @@ export const TechnicianDetails = ({
                         </div>
                     </div>
                 </div>
-                <DialogFooter>
-                    <Button variant="outline">Fermer</Button>
-                </DialogFooter>
+                <DialogTrigger asChild>
+                    <DialogFooter>
+                        <Button variant="outline">Fermer</Button>
+                    </DialogFooter>
+                </DialogTrigger>
             </DialogContent>
         </Dialog>
     );

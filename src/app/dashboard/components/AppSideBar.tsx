@@ -20,12 +20,12 @@ const data = {
         {
             collapsible: false,
             title: "Signalements",
-            url: "dashboard/reports",
+            url: "/dashboard/reports",
             icon: TriangleAlert,
         },
         {
             title: "Utilisateurs",
-            url: "dashboard/users",
+            url: "/dashboard/users",
             icon: User,
             collapsible: true,
             items: [
@@ -51,13 +51,13 @@ const data = {
         },
         {
             title: "Assets",
-            url: "dashboard/assets",
+            url: "/dashboard/assets",
             icon: Building2,
             collapsible: false,
         },
         {
             title: "Categories",
-            url: "dashboard/categories",
+            url: "/dashboard/categories",
             icon: GalleryVerticalEnd,
             collapsible: false,
         },
@@ -68,7 +68,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <NavHeader />
-            <SidebarContent>
+            <SidebarContent className=" font-base">
                 <NavMain items={data.navMain} />
             </SidebarContent>
             <SidebarFooter>Logout</SidebarFooter>
