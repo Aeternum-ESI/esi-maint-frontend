@@ -19,7 +19,6 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
     const [open, setOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editValue, setEditValue] = useState("");
-    const [roleFilter, setRoleFilter] = useState<string>("");
     const [pendingOperations, setPendingOperations] = useState<Record<number, "updating" | "deleting" | null>>({});
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -144,53 +143,11 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
         }
     };
 
-    // Filter professions based on selection
-    const filteredProfessions = roleFilter
-        ? professions.filter((p) => p.name.toLowerCase().includes(roleFilter.toLowerCase()))
-        : professions;
-
     return (
         <div className="space-y-4 p-4">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <h2 className="text-xl font-bold">Professions</h2>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button variant="outline" size="sm" className="ml-2 h-8 gap-1">
-                                <Filter className="h-3.5 w-3.5" />
-                                <span>Filter</span>
-                                {roleFilter && (
-                                    <span className="rounded-md bg-muted px-1.5 text-xs font-medium">1</span>
-                                )}
-                                <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                            <Command>
-                                <CommandInput placeholder="Search role..." />
-                                <CommandEmpty>No role found.</CommandEmpty>
-                                <CommandGroup>
-                                    {professions.map((profession) => (
-                                        <CommandItem
-                                            key={profession.id}
-                                            value={profession.name}
-                                            onSelect={(value) => {
-                                                setRoleFilter(value === roleFilter ? "" : value);
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "mr-2 h-4 w-4",
-                                                    roleFilter === profession.name ? "opacity-100" : "opacity-0"
-                                                )}
-                                            />
-                                            {profession.name}
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
                 </div>
                 <Dialog
                     open={open}
@@ -227,7 +184,7 @@ export const DisplayProfessions = ({ professions: initialProfessions }: { profes
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredProfessions.map((profession) => {
+                {professions.map((profession) => {
                     const isPending = Boolean(pendingOperations[profession.id]);
                     const isDeleting = pendingOperations[profession.id] === "deleting";
                     const isUpdating = pendingOperations[profession.id] === "updating";

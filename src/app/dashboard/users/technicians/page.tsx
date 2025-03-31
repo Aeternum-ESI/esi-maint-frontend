@@ -26,7 +26,7 @@ async function Page() {
                 <TabsTrigger value="Demandes">Professions</TabsTrigger>
             </TabsList>
             <TabsContent value="Tous" className="h-full ">
-                <Card className="h-[calc(100vh-9rem)]">
+                <Card className="h-[calc(100vh-9rem)] overflow-scroll gap-4 p-4">
                     <DisplayTechnicians technicians={technicians} professions={professions} />
                 </Card>
             </TabsContent>

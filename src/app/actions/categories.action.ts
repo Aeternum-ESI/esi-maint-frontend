@@ -16,6 +16,8 @@ export const createCategory = async (category: { name: string; description: stri
         throw new Error(JSON.stringify(response.error));
     }
     revalidatePath("/dashboard/assets");
+
+    return response.data?.data;
 };
 
 export const deleteCategory = async (id: number) => {

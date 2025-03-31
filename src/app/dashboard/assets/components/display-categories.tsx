@@ -94,14 +94,21 @@ export const DisplayCategories = ({ categories: initialCategories }: { categorie
         setCategories((prev) => [...prev, newCategory]);
 
         try {
-            await createCategory({
+            const realNewCategory: Category = await createCategory({
                 name: newCategoryName,
                 description: newCategoryDescription,
                 parentId: null,
             });
 
-            // Simulate API call delay
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            // update the fake id with real id
+            setCategories((prev) =>
+                prev.map((cat) => {
+                    if (cat.id === tempId) {
+                        return { ...cat, id: realNewCategory.id };
+                    }
+                    return cat;
+                })
+            );
 
             toast.success("Category added successfully");
         } catch (error) {
@@ -163,11 +170,28 @@ export const DisplayCategories = ({ categories: initialCategories }: { categorie
         setCategories(updateCategories);
 
         try {
-            await createCategory({
+            const realNewCategory = await createCategory({
                 name: newCategoryName,
                 description: newCategoryDescription,
                 parentId: selectedCategory.id,
             });
+            // check categories and subCategories, update the fake id with real id
+            const updateCategoriesWithRealId = (cats: Category[]): Category[] => {
+                return cats.map((cat) => {
+                    if (cat.id === tempId) {
+                        return { ...cat, id: realNewCategory.id };
+                    } else if (cat.children && cat.children.length > 0) {
+                        return {
+                            ...cat,
+                            children: updateCategoriesWithRealId(cat.children),
+                        };
+                    }
+                    return cat;
+                });
+            };
+            setCategories(updateCategoriesWithRealId);
+            console.log(categories);
+
             toast.success(`Subcategory added to ${selectedCategory.name}`);
         } catch (error) {
             // Revert optimistic update on error
@@ -545,39 +569,47 @@ export const DisplayCategories = ({ categories: initialCategories }: { categorie
             {/* Root Category Dialog */}
             <Dialog open={showAddRootDialog} onOpenChange={setShowAddRootDialog}>
                 <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Add Root Category</DialogTitle>
-                        <DialogDescription>Create a new top-level category</DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="name">Name</Label>
-                            <Input
-                                id="name"
-                                value={newCategoryName}
-                                onChange={(e) => setNewCategoryName(e.target.value)}
-                                placeholder="Category name"
-                            />
+                    <form
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            await handleAddRootCategory();
+                        }}
+                    >
+                        <DialogHeader>
+                            <DialogTitle>Add Root Category</DialogTitle>
+                            <DialogDescription>Create a new top-level category</DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    value={newCategoryName}
+                                    onChange={(e) => setNewCategoryName(e.target.value)}
+                                    placeholder="Category name"
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="description">Description</Label>
+                                <Input
+                                    id="description"
+                                    value={newCategoryDescription}
+                                    onChange={(e) => setNewCategoryDescription(e.target.value)}
+                                    placeholder="Category description (optional)"
+                                />
+                            </div>
                         </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="description">Description</Label>
-                            <Input
-                                id="description"
-                                value={newCategoryDescription}
-                                onChange={(e) => setNewCategoryDescription(e.target.value)}
-                                placeholder="Category description (optional)"
-                            />
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button variant="outline" onClick={() => resetDialogs()}>
-                            Cancel
-                        </Button>
-                        <Button onClick={handleAddRootCategory} disabled={!newCategoryName.trim() || isAddingRoot}>
-                            {isAddingRoot && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Add Category
-                        </Button>
-                    </DialogFooter>
+                        <DialogFooter>
+                            <Button variant="outline" type="button" onClick={() => resetDialogs()}>
+                                Cancel
+                            </Button>
+
+                            <Button type="submit" disabled={!newCategoryName.trim() || isAddingRoot}>
+                                {isAddingRoot && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Add Category
+                            </Button>
+                        </DialogFooter>
+                    </form>
                 </DialogContent>
             </Dialog>
 

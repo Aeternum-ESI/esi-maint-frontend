@@ -32,12 +32,64 @@ export const DisplayTechnicians = ({
     technicians: Technician[];
     professions: Profession[];
 }) => {
+    const [roleFilter, setRoleFilter] = useState<string>("");
+
+    const filteredTechnicians = roleFilter
+        ? technicians.filter((p) => p.name.toLowerCase().includes(roleFilter.toLowerCase()))
+        : technicians;
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            {technicians.map((technician) => (
-                <TechnicianCard key={technician.id} technician={technician} professions={professions} />
-            ))}
-        </div>
+        <>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button variant="outline" size="sm" className=" h-8  gap-1 w-fit">
+                        <Filter className="h-3.5 w-3.5" />
+                        <span>Filter</span>
+                        {roleFilter && <span className="rounded-md bg-muted px-1.5 text-xs font-medium">1</span>}
+                        <ChevronsUpDown className="ml-1 h-3.5 w-3.5 shrink-0 opacity-50" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                        <CommandInput placeholder="Search role..." />
+                        <CommandEmpty>No role found.</CommandEmpty>
+                        <CommandGroup>
+                            {professions.map((profession) => (
+                                <CommandItem
+                                    key={profession.id}
+                                    value={profession.name}
+                                    onSelect={(value) => {
+                                        setRoleFilter(value === roleFilter ? "" : value);
+                                    }}
+                                >
+                                    <Check
+                                        className={cn(
+                                            "mr-2 h-4 w-4",
+                                            roleFilter === profession.name ? "opacity-100" : "opacity-0"
+                                        )}
+                                    />
+                                    {profession.name}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </Command>
+                </PopoverContent>
+            </Popover>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+                {[
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                    ...filteredTechnicians,
+                ].map((technician) => (
+                    <TechnicianCard key={technician.id} technician={technician} professions={professions} />
+                ))}
+            </div>
+        </>
     );
 };
 
