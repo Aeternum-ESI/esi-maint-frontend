@@ -37,3 +37,28 @@ export type Category = {
     updatedAt: string;
     children: Category[];
 };
+
+export enum AssetType {
+    BUILDING = "BUILDING",
+    ROOM = "ROOM",
+    EQUIPMENT = "EQUIPMENT",
+}
+
+export enum AssetStatus {
+    OPERATIONAL = "OPERATIONAL",
+    UNDER_MAINTENANCE = "UNDER_MAINTENANCE",
+}
+
+export interface Asset {
+    id: number;
+    locationId: number | null;
+    categoryId: number | null;
+    name: string;
+    inventoryCode: string;
+    status: AssetStatus;
+    type: AssetType;
+    createdAt: string;
+    updatedAt: string;
+    category: Category | null;
+    location: Asset | null;
+}
