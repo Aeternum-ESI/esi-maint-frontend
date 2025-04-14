@@ -39,8 +39,8 @@ export type Category = {
 };
 
 export enum AssetType {
-    BUILDING = "BUILDING",
-    ROOM = "ROOM",
+    SITE = "SITE",
+    ZONE = "ZONE",
     EQUIPMENT = "EQUIPMENT",
 }
 
