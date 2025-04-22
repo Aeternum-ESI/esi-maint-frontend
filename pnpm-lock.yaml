@@ -92,6 +92,9 @@ importers:
       nextjs-toploader:
         specifier: ^3.8.15
         version: 3.8.15(next@15.2.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      pnpm:
+        specifier: ^10.7.0
+        version: 10.8.1
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -1061,6 +1064,11 @@ packages:
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
+
+  pnpm@10.8.1:
+    resolution: {integrity: sha512-xQCIupmMZ7jKjJnfil4C/Sri4rKaryOP6qnhJCSNP0j5+22yQklJ/5Ac/7teDwzBrWrttgLNKUUHUdEcNQI2dw==}
+    engines: {node: '>=18.12'}
+    hasBin: true
 
   postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
@@ -2069,6 +2077,8 @@ snapshots:
   object-assign@4.1.1: {}
 
   picocolors@1.1.1: {}
+
+  pnpm@10.8.1: {}
 
   postcss@8.4.31:
     dependencies:

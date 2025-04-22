@@ -65,14 +65,6 @@ export function NavUser({ user }: { user: User }) {
                         <UserCircleIcon />
                         Account
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <CreditCardIcon />
-                        Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <BellIcon />
-                        Notifications
-                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>

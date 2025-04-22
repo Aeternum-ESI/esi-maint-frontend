@@ -45,7 +45,7 @@ const data = {
         },
         {
             title: "Planifier",
-            url: "dashboard/schedule",
+            url: "Planifier",
             icon: BookOpen,
             collapsible: false,
         },
@@ -55,12 +55,12 @@ const data = {
             icon: Building2,
             collapsible: false,
         },
-        {
+        /*{
             title: "Categories",
             url: "/dashboard/categories",
             icon: GalleryVerticalEnd,
             collapsible: false,
-        },
+        },*/
     ],
 };
 
