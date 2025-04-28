@@ -22,9 +22,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <head>
-                <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
-            </head>
             <body className={` ${poppins.className}   bg-isabelline h-screen`}>
                 {children}
                 <NextTopLoader crawlSpeed={100} />

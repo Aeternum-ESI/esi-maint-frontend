@@ -14,11 +14,16 @@ export default async function TechnicianDashboard() {
 
     const technicianData = response.data?.data as TechnicianApiType;
     const response2 = await $fetch("/assets", {
-        auth: await getToken()
-    })
+        auth: await getToken(),
+    });
 
     const assets: Asset[] = response2.data?.data;
 
+    // Fetch hierarchy of categories
+    const response3 = await $fetch("/categories", {
+        auth: await getToken(),
+    });
+    const categories = response3.data?.data;
 
     return (
         <div className="container mx-auto p-6 space-y-6">
@@ -35,8 +40,9 @@ export default async function TechnicianDashboard() {
                     {<AssignedRequests assignments={technicianData.TechnicianAssignements} />}
                 </TabsContent>
 
-
-                <TabsContent value="assets"> <AssetsExplorer assets={assets} /> }</TabsContent>
+                <TabsContent value="assets">
+                    <AssetsExplorer assets={assets} categories={categories} />{" "}
+                </TabsContent>
             </Tabs>
         </div>
     );
@@ -63,5 +69,3 @@ export type TechnicianApiType = {
     profession: Profession;
     Interventions: Intervention[];
 };
-
-
