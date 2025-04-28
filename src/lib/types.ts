@@ -87,6 +87,7 @@ export interface Asset {
     updatedAt: string;
     category: Category | null;
     location: Asset | null;
+    assignements: TechnicianAssignment[]
 }
 
 export enum Priority {

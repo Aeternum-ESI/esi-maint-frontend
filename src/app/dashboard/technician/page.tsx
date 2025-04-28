@@ -4,7 +4,8 @@ import { AssignedRequests } from "./components/AssignedRequests";
 import { TechnicianOverview } from "./components/TechnicianOverview";
 import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
-import { Availability, Intervention, Profession, TechnicianAssignment } from "@/lib/types";
+import { Asset, Availability, Intervention, Profession, TechnicianAssignment } from "@/lib/types";
+import { AssetsExplorer } from "./components/AssetsExplorer";
 
 export default async function TechnicianDashboard() {
     const response = await $fetch("/technicians/me", {
@@ -12,6 +13,12 @@ export default async function TechnicianDashboard() {
     });
 
     const technicianData = response.data?.data as TechnicianApiType;
+    const response2 = await $fetch("/assets", {
+        auth: await getToken()
+    })
+
+    const assets: Asset[] = response2.data?.data;
+
 
     return (
         <div className="container mx-auto p-6 space-y-6">
@@ -19,7 +26,6 @@ export default async function TechnicianDashboard() {
                 <TabsList className="grid grid-cols-4 mb-6 max-lg:grid-cols-2 w-full [&>*]:m-2 h-auto">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
                     <TabsTrigger value="requests">Assigned Requests</TabsTrigger>
-                    <TabsTrigger value="completed">Completed Interventions</TabsTrigger>
                     <TabsTrigger value="assets">Assets</TabsTrigger>
                 </TabsList>
 
@@ -29,9 +35,8 @@ export default async function TechnicianDashboard() {
                     {<AssignedRequests assignments={technicianData.TechnicianAssignements} />}
                 </TabsContent>
 
-                <TabsContent value="completed">{/* <CompletedInterventions /> */}</TabsContent>
 
-                <TabsContent value="assets">{/* <AssetsExplorer /> */}</TabsContent>
+                <TabsContent value="assets"> <AssetsExplorer assets={assets} /> }</TabsContent>
             </Tabs>
         </div>
     );
@@ -58,3 +63,5 @@ export type TechnicianApiType = {
     profession: Profession;
     Interventions: Intervention[];
 };
+
+

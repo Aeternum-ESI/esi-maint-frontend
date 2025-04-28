@@ -2,7 +2,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Asset, InterventionRequestStatus, OperationType, Priority, TechnicianAssignment } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Calendar, CheckCircle2, Clock, LocateFixed, MapPin, TriangleAlert, Wrench } from "lucide-react";

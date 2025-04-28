@@ -4,63 +4,29 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/components/ui/use-toast";
 import { AlertCircle, Search, FolderTree, Briefcase, Box, Layers, Filter, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Asset, Category } from "@/lib/types";
 
-export function AssetsExplorer() {
-    const [assets, setAssets] = useState([]);
-    const [filteredAssets, setFilteredAssets] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+export function AssetsExplorer({ assets, categories }: { assets: Asset[], categories: Category[] }) {
+    const [filteredAssets, setFilteredAssets] = useState<Asset[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedAsset, setSelectedAsset] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [selectedType, setSelectedType] = useState("all");
-    const { toast } = useToast();
 
-    useEffect(() => {
-        fetchAssetsAndCategories();
-    }, []);
+
 
     useEffect(() => {
         applyFilters();
     }, [searchTerm, selectedCategory, selectedType, assets]);
 
-    const fetchAssetsAndCategories = async () => {
-        try {
-            setIsLoading(true);
 
-            // Fetch assets
-            const assetsResponse = await fetch("/api/assets");
-            if (!assetsResponse.ok) {
-                throw new Error("Failed to fetch assets");
-            }
-            const assetsData = await assetsResponse.json();
-            setAssets(assetsData);
-
-            // Fetch categories
-            const categoriesResponse = await fetch("/api/categories");
-            if (!categoriesResponse.ok) {
-                throw new Error("Failed to fetch categories");
-            }
-            const categoriesData = await categoriesResponse.json();
-            setCategories(categoriesData);
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                title: "Error",
-                description: "Failed to load assets. Please try again.",
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const applyFilters = () => {
         let filtered = [...assets];
