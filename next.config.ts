@@ -20,6 +20,13 @@ const nextConfig: NextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    redirects: async () => [
+        {
+            source: "/dashboard",
+            destination: "/dashboard/overview",
+            permanent: false,
+        },
+    ],
     /* config options here */
 };
 

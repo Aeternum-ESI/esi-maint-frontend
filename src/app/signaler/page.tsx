@@ -14,7 +14,6 @@ async function Page() {
         method: "GET",
         auth: await getToken(),
     });
-    console.log(response2);
 
     const assets = response2.data?.data || [];
 

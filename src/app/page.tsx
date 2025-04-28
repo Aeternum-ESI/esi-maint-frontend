@@ -38,12 +38,11 @@ export default async function Home() {
                         </p>
                     </div>
                     {!user ? (
-                        <Button
-                            onClick={() => (window.location.href = `${BACKEND_URL}/auth/google`)}
-                            className="bg-persian-green hover:bg-persian-green/90 text-white"
-                        >
-                            Se connecter
-                        </Button>
+                        <Link href="/login">
+                            <Button className="bg-persian-green hover:bg-persian-green/90 text-white">
+                                Se connecter
+                            </Button>
+                        </Link>
                     ) : (
                         <div className="flex items-center gap-3">
                             {user.role !== "STAFF" && (
@@ -82,14 +81,13 @@ export default async function Home() {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 {!user ? (
-                                    <Button
-                                        size="lg"
-                                        className="bg-persian-green hover:bg-persian-green/90 text-white"
-                                        onClick={() => (window.location.href = `${BACKEND_URL}/auth/google`)}
+                                    <Link
+                                        href="/login"
+                                        className="bg-persian-green hover:bg-persian-green/90 text-white flex items-center px-2 rounded-lg"
                                     >
                                         Accéder à la plateforme
                                         <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
+                                    </Link>
                                 ) : (
                                     user.role !== "STAFF" && (
                                         <Link href="/dashboard">
@@ -235,13 +233,13 @@ export default async function Home() {
                                             <strong>Vous êtes technicien ou administrateur ?</strong> Connectez-vous
                                             pour accéder au tableau de bord complet de gestion de la maintenance.
                                         </p>
-                                        <Button
-                                            className="bg-persian-green hover:bg-persian-green/90 text-white"
-                                            onClick={() => (window.location.href = `${BACKEND_URL}/auth/google`)}
+                                        <Link
+                                            className="text-persian-green group hover:text-persian-green/90 p-1  flex items-center"
+                                            href={"/login"}
                                         >
                                             Accéder au tableau de bord
-                                            <ChevronRight className="ml-2 h-4 w-4" />
-                                        </Button>
+                                            <ChevronRight className="ml-1 h-4 w-4 group-hover:ml-4 duration-200" />
+                                        </Link>
                                     </>
                                 ) : (
                                     <Link href="/dashboard">
@@ -289,13 +287,11 @@ export default async function Home() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         {!user ? (
-                            <Button
-                                size="lg"
-                                variant="secondary"
-                                onClick={() => (window.location.href = `${BACKEND_URL}/auth/google`)}
-                            >
-                                Se connecter via Google
-                            </Button>
+                            <Link href="/login">
+                                <Button size="lg" variant="secondary">
+                                    Se connecter
+                                </Button>
+                            </Link>
                         ) : (
                             <Link href="/dashboard">
                                 <Button size="lg" variant="secondary" disabled={user.role === "STAFF"}>
@@ -306,8 +302,7 @@ export default async function Home() {
                         <Link href="/signaler">
                             <Button
                                 size="lg"
-                                variant="outline"
-                                className="border-white text-white hover:bg-white hover:text-persian-green"
+                                className=" text-white bg-hint-text   hover:bg-white hover:text-persian-green"
                             >
                                 Signaler un problème
                             </Button>
@@ -354,7 +349,7 @@ export default async function Home() {
     );
 }
 
-function FeatureCard({ icon, title, description }) {
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
     return (
         <Card className="transition-all hover:shadow-md hover:border-persian-green/20">
             <CardHeader>
@@ -368,7 +363,7 @@ function FeatureCard({ icon, title, description }) {
     );
 }
 
-function StepCard({ number, title, description }) {
+function StepCard({ number, title, description }: { number: number; title: string; description: string }) {
     return (
         <Card className="relative border-border/40 overflow-hidden">
             <div className="absolute -top-10 -left-10 w-20 h-20 bg-persian-green/10 rounded-full"></div>
@@ -385,7 +380,7 @@ function StepCard({ number, title, description }) {
     );
 }
 
-function FeatureItem({ children }) {
+function FeatureItem({ children }: { children: React.ReactNode }) {
     return (
         <li className="flex items-start">
             <CheckCircle2 className="h-5 w-5 mr-2 text-persian-green mt-0.5" />

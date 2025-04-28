@@ -78,7 +78,14 @@ const ReportDetail = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className="p-6 border-b border-gray-200">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Report #{report.id}</h1>
+                            <h1 className="text-2xl font-semibold text-gray-800">
+                                {`${new Date(report.createdAt)
+                                    .getFullYear()
+                                    .toString()
+                                    .slice(2, 4)}-${operationTypeLabels[report.type].toUpperCase().slice(0, 3)}-${
+                                    report.id
+                                }`}
+                            </h1>
                             <p className="text-gray-600 mt-1">
                                 Created {formatDistanceToNow(new Date(report.createdAt))} ago
                             </p>
