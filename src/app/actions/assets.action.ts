@@ -2,7 +2,7 @@
 
 import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
-import { AssetType } from "@/lib/types";
+import { AssetType, AssetStatus } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function createAsset(formData: FormData) {
@@ -13,6 +13,8 @@ export async function createAsset(formData: FormData) {
             type: formData.get("type") as AssetType,
             locationId: formData.get("locationId") ? parseInt(formData.get("locationId") as string) : null,
             categoryId: formData.get("categoryId") ? parseInt(formData.get("categoryId") as string) : null,
+            // Add the image URL if it exists in the form data
+            image: (formData.get("image") as string) || null,
         };
 
         const { data, error } = await $fetch("/assets", {
@@ -36,18 +38,20 @@ export async function createAsset(formData: FormData) {
     }
 }
 
-export async function updateAsset(assetId: number, formData: FormData) {
+export async function updateAsset(id: number, formData: FormData) {
     try {
         const assetData = {
             name: formData.get("name") as string,
             inventoryCode: formData.get("inventoryCode") as string,
             type: formData.get("type") as AssetType,
+            status: formData.get("status") as AssetStatus,
             locationId: formData.get("locationId") ? parseInt(formData.get("locationId") as string) : null,
             categoryId: formData.get("categoryId") ? parseInt(formData.get("categoryId") as string) : null,
-            // Status is removed from here as it will be managed through a different workflow
+            // Add the image URL if it exists in the form data
+            image: (formData.get("image") as string) || null,
         };
 
-        const { data, error } = await $fetch(`/assets/${assetId}`, {
+        const { data, error } = await $fetch(`/assets/${id}`, {
             method: "PATCH",
             body: JSON.stringify(assetData),
             auth: await getToken(),

@@ -75,17 +75,7 @@ export const DisplayTechnicians = ({
                 </PopoverContent>
             </Popover>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-                {[
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                ].map((technician) => (
+                {filteredTechnicians.map((technician) => (
                     <TechnicianCard key={technician.id} technician={technician} professions={professions} />
                 ))}
             </div>
@@ -135,7 +125,7 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
                     </p>
                     <Badge
                         className="m-2"
-                        variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}
+                        variant={technician.approvalStatus === "VALIDATED" ? "outline" : "destructive"}
                     >
                         {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
                     </Badge>
@@ -283,7 +273,7 @@ export const TechnicianDetails = ({
                     </div>
                     <div className="grid grid-cols-[100px_1fr] items-center">
                         <span className="font-semibold">Statut:</span>
-                        <Badge variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}>
+                        <Badge variant={technician.approvalStatus === "VALIDATED" ? "outline" : "destructive"}>
                             {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
                         </Badge>
                     </div>
