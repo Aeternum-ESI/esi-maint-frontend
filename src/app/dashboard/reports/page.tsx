@@ -1,6 +1,5 @@
 import { $fetch } from "@/app/fetch";
 import { getToken } from "@/app/getToken";
-
 import ReportsTable from "./components/reports-table";
 import { Report } from "@/lib/types";
 

@@ -62,20 +62,20 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
             assetId: selectedAsset?.id || 0,
         };
         if (!selectedAsset) {
-            toast.error("Veuillez sélectionner un actif");
+            toast.error("Please select an asset");
             return;
         }
 
         try {
             await createReport(data);
 
-            toast.success("Problème signalé avec succès");
+            toast.success("Problem reported successfully");
             reset();
             setSelectedAsset(null);
             setPreviewImage(null);
             router.push("/signaler/success");
         } catch (error) {
-            toast.error("Erreur lors de la soumission du formulaire");
+            toast.error("Error submitting the form");
             console.error(error);
         }
     };
@@ -100,21 +100,21 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
                 <div>
-                    <h2 className="text-lg font-medium mb-2">Mode de sélection</h2>
+                    <h2 className="text-lg font-medium mb-2">Selection Mode</h2>
                     <div className="flex space-x-4">
                         <Button
                             type="button"
                             variant={searchMode === "filter" ? "default" : "outline"}
                             onClick={() => setSearchMode("filter")}
                         >
-                            Filtrer par hiérarchie
+                            Filter by hierarchy
                         </Button>
                         <Button
                             type="button"
                             variant={searchMode === "search" ? "default" : "outline"}
                             onClick={() => setSearchMode("search")}
                         >
-                            Rechercher par code
+                            Search by code
                         </Button>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                 {searchMode === "filter" ? (
                     <div className="space-y-4">
                         <div>
-                            <h2 className="text-lg font-medium mb-2">Type d&apos;actif</h2>
+                            <h2 className="text-lg font-medium mb-2">Asset Type</h2>
                             <RadioGroup
                                 defaultValue={selectedAssetType}
                                 onValueChange={(value) => setSelectedAssetType(value as AssetType)}
@@ -150,9 +150,9 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
 
                 {selectedAsset && (
                     <Card className="p-4 bg-muted/50">
-                        <h3 className="font-medium mb-2">Actif sélectionné:</h3>
+                        <h3 className="font-medium mb-2">Selected Asset:</h3>
                         <p>
-                            <strong>Nom:</strong> {selectedAsset.name}
+                            <strong>Name:</strong> {selectedAsset.name}
                         </p>
                         <p>
                             <strong>Code:</strong> {selectedAsset.inventoryCode}
@@ -168,7 +168,7 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
             </div>
 
             <div className="space-y-4">
-                <h2 className="text-lg font-medium">Détails du problème</h2>
+                <h2 className="text-lg font-medium">Problem Details</h2>
 
                 <div>
                     <Label htmlFor="description">
@@ -176,8 +176,8 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                     </Label>
                     <Textarea
                         id="description"
-                        placeholder="Décrivez le problème rencontré..."
-                        {...register("description", { required: "La description est requise" })}
+                        placeholder="Describe the problem encountered..."
+                        {...register("description", { required: "Description is required" })}
                         className={errors.description ? "border-destructive" : ""}
                     />
                     {errors.description && (
@@ -187,7 +187,7 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
 
                 <div>
                     <Label htmlFor="priority">
-                        Priorité <span className="text-destructive">*</span>
+                        Priority <span className="text-destructive">*</span>
                     </Label>
                     <div className="grid grid-cols-3 gap-4 mt-2">
                         <div
@@ -199,8 +199,8 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                             onClick={() => setValue("priority", "LOW")}
                         >
                             <div className="w-6 h-6 bg-green-500 rounded-full mx-auto mb-2"></div>
-                            <p className="font-medium">Basse</p>
-                            <p className="text-xs text-gray-500">Peu urgente</p>
+                            <p className="font-medium">Low</p>
+                            <p className="text-xs text-gray-500">Non-urgent</p>
                         </div>
                         <div
                             className={`border rounded-lg p-4 text-center cursor-pointer transition-all ${
@@ -211,8 +211,8 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                             onClick={() => setValue("priority", "MEDIUM")}
                         >
                             <div className="w-6 h-6 bg-yellow-500 rounded-full mx-auto mb-2"></div>
-                            <p className="font-medium">Moyenne</p>
-                            <p className="text-xs text-gray-500">Attention requise</p>
+                            <p className="font-medium">Medium</p>
+                            <p className="text-xs text-gray-500">Attention required</p>
                         </div>
                         <div
                             className={`border rounded-lg p-4 text-center cursor-pointer transition-all ${
@@ -223,15 +223,15 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                             onClick={() => setValue("priority", "HIGH")}
                         >
                             <div className="w-6 h-6 bg-red-500 rounded-full mx-auto mb-2"></div>
-                            <p className="font-medium">Haute</p>
-                            <p className="text-xs text-gray-500">Intervention urgente</p>
+                            <p className="font-medium">High</p>
+                            <p className="text-xs text-gray-500">Urgent intervention</p>
                         </div>
                     </div>
                     <input type="hidden" {...register("priority", { required: true })} />
                 </div>
 
                 <div>
-                    <Label htmlFor="image">Photo du problème (optionnel)</Label>
+                    <Label htmlFor="image">Problem Photo (optional)</Label>
                     <div className="mt-2">
                         {!previewImage ? (
                             <div className="grid grid-cols-2 gap-3">
@@ -253,7 +253,7 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                                     onError={(e) => console.log(e)}
                                 >
                                     <Camera className="w-8 h-8 text-gray-400 mb-2" />
-                                    <span className="text-sm font-medium">Prendre une photo</span>
+                                    <span className="text-sm font-medium">Take a photo</span>
                                 </CldUploadButton>
 
                                 <CldUploadButton
@@ -273,13 +273,13 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                                     }}
                                 >
                                     <Image className="w-8 h-8 text-gray-400 mb-2" />
-                                    <span className="text-sm font-medium">Choisir une image</span>
+                                    <span className="text-sm font-medium">Choose an image</span>
                                 </CldUploadButton>
                             </div>
                         ) : (
                             <div className="relative">
                                 <img
-                                    src={previewImage}
+                                    src={previewImage || null}
                                     alt="Preview"
                                     className="w-full h-64 object-contain bg-gray-100 rounded-lg border"
                                 />
@@ -306,14 +306,14 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                         setPreviewImage(null);
                     }}
                 >
-                    Réinitialiser
+                    Reset
                 </Button>
                 <Button
                     type="submit"
                     disabled={isSubmitting || !selectedAsset}
                     className="bg-pumpkin hover:bg-pumpkin/90 text-white"
                 >
-                    {isSubmitting ? "Envoi en cours..." : "Signaler le problème"}
+                    {isSubmitting ? "Submitting..." : "Report Problem"}
                 </Button>
             </div>
         </form>

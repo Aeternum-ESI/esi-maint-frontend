@@ -20,17 +20,17 @@ async function Page() {
     const technicians: Technician[] = response.data?.data ?? [];
 
     return (
-        <Tabs defaultValue="Tous" className="p-4 h-full">
+        <Tabs defaultValue="All" className="p-4 h-full">
             <TabsList className="grid  grid-cols-2 bg-muted w-[400px]">
-                <TabsTrigger value="Tous">Tous</TabsTrigger>
-                <TabsTrigger value="Demandes">Professions</TabsTrigger>
+                <TabsTrigger value="All">All</TabsTrigger>
+                <TabsTrigger value="Professions">Professions</TabsTrigger>
             </TabsList>
-            <TabsContent value="Tous" className="h-full ">
+            <TabsContent value="All" className="h-full ">
                 <Card className="h-[calc(100vh-9rem)] overflow-scroll gap-4 p-4">
                     <DisplayTechnicians technicians={technicians} professions={professions} />
                 </Card>
             </TabsContent>
-            <TabsContent value="Demandes">
+            <TabsContent value="Professions">
                 <Card className="h-[calc(100vh-9rem)] overflow-scroll">
                     <DisplayProfessions professions={professions} />
                 </Card>

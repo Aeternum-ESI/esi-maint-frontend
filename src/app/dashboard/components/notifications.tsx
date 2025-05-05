@@ -65,7 +65,7 @@ export const Notifications = async () => {
                     {notifcations.length === 0 && (
                         <div className="text-center  flex flex-col font-bold items-center justify-center py-8 text-oxford-blue text-lg">
                             <Haze size={50} />
-                            Rien à signaler !
+                            Nothing to report!
                         </div>
                     )}
 

@@ -16,7 +16,7 @@ export function CalendarWrapper({ assets, categories }: { assets: Asset[]; categ
             return result;
         } catch (error) {
             console.error("Error submitting task:", error);
-            return { success: false, message: "Une erreur est survenue" };
+            return { success: false, message: "An error occurred" };
         }
     };
 

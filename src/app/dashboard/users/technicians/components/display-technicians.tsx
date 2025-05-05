@@ -75,17 +75,7 @@ export const DisplayTechnicians = ({
                 </PopoverContent>
             </Popover>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-                {[
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                    ...filteredTechnicians,
-                ].map((technician) => (
+                {filteredTechnicians.map((technician) => (
                     <TechnicianCard key={technician.id} technician={technician} professions={professions} />
                 ))}
             </div>
@@ -99,11 +89,11 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
             <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                     <Avatar className="h-12 w-12">
-                        <AvatarImage src={technician.avatarUrl || ""} alt={technician.name} />
+                        <AvatarImage src={technician.avatarUrl || null} alt={technician.name} />
                         <AvatarFallback>{technician.name?.charAt(0) || "T"}</AvatarFallback>
                     </Avatar>
                     <Badge variant="outline" className="ml-2">
-                        Technicien
+                        Technician
                     </Badge>
                 </div>
                 <CardTitle className="mt-2">{technician.name}</CardTitle>
@@ -116,7 +106,7 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
             <CardContent>
                 <div className="flex flex-col space-y-1 text-sm">
                     <p className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" /> Inscrit le:{" "}
+                        <Calendar className="h-4 w-4 mr-1" /> Registered on:{" "}
                         {new Date(technician.technicianData.createdAt).toLocaleDateString()}
                     </p>
                     {technician.technicianData.profession && (
@@ -128,16 +118,16 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
                         </p>
                     )}
                     <p className="flex items-center">
-                        <Clock className="h-4 w-4 mr-1" /> Disponibilité:{" "}
+                        <Clock className="h-4 w-4 mr-1" /> Availability:{" "}
                         {technician.technicianData.availabilities
-                            ? `${technician.technicianData.availabilities.length} plage(s) horaire`
-                            : "Non spécifiée"}
+                            ? `${technician.technicianData.availabilities.length} time slot(s)`
+                            : "Not specified"}
                     </p>
                     <Badge
                         className="m-2"
                         variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}
                     >
-                        {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
+                        {technician.approvalStatus === "VALIDATED" ? "Validated" : "Not validated"}
                     </Badge>
                 </div>
             </CardContent>
@@ -173,8 +163,8 @@ export const TechnicianDetails = ({
 
         // If there are no unused days, don't add a new slot
         if (unusedDays.length === 0) {
-            toast("Attention", {
-                description: "Tous les jours sont déjà utilisés",
+            toast("Warning", {
+                description: "All days are already used",
             });
             return;
         }
@@ -192,8 +182,8 @@ export const TechnicianDetails = ({
         if (field === "day") {
             const existingDayIndex = availabilities.findIndex((a, i) => i !== index && a.day === value);
             if (existingDayIndex !== -1) {
-                toast("Erreur", {
-                    description: `${formatDay(value as Day)} est déjà utilisé`,
+                toast("Error", {
+                    description: `${formatDay(value as Day)} is already used`,
                 });
                 return;
             }
@@ -208,12 +198,12 @@ export const TechnicianDetails = ({
         const error = await updateTechnicianProfession(technicianId, professionId);
         if (error) {
             console.error("Failed to update profession:", error);
-            return toast("Erreur", {
-                description: "Impossible de mettre à jour la profession",
+            return toast("Error", {
+                description: "Unable to update the profession",
             });
         }
-        toast("Succès", {
-            description: "Profession mise à jour avec succès",
+        toast("Success", {
+            description: "Profession updated successfully",
         });
     };
 
@@ -229,30 +219,30 @@ export const TechnicianDetails = ({
                 };
             });
             await updateTechnicianAvailability(technician.id, mappedAvailabilities);
-            toast("Succès", {
-                description: "Disponibilités mises à jour avec succès ",
+            toast("Success", {
+                description: "Availabilities updated successfully",
             });
             setIsEditingAvailabilities(false);
         } catch (error) {
             console.error("Failed to update availabilities:", error);
-            toast("Erreur", {
-                description: "Impossible de mettre à jour les disponibilités",
+            toast("Error", {
+                description: "Unable to update availabilities",
             });
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Function to display day in French
+    // Function to display day in English
     const formatDay = (day: Day) => {
         const dayMap: Record<Day, string> = {
-            MONDAY: "Lundi",
-            TUESDAY: "Mardi",
-            WEDNESDAY: "Mercredi",
-            THURSDAY: "Jeudi",
-            FRIDAY: "Vendredi",
-            SATURDAY: "Samedi",
-            SUNDAY: "Dimanche",
+            MONDAY: "Monday",
+            TUESDAY: "Tuesday",
+            WEDNESDAY: "Wednesday",
+            THURSDAY: "Thursday",
+            FRIDAY: "Friday",
+            SATURDAY: "Saturday",
+            SUNDAY: "Sunday",
         };
         return dayMap[day];
     };
@@ -261,7 +251,7 @@ export const TechnicianDetails = ({
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline" className="w-full">
-                    Voir les détails
+                    View details
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
@@ -270,7 +260,7 @@ export const TechnicianDetails = ({
                         <User className="h-5 w-5 mr-2" />
                         {technician.name}
                     </DialogTitle>
-                    <DialogDescription>Informations complètes du technicien</DialogDescription>
+                    <DialogDescription>Complete technician information</DialogDescription>
                 </DialogHeader>
                 <div className="py-4 space-y-4">
                     <div className="grid grid-cols-[100px_1fr] items-center">
@@ -278,13 +268,13 @@ export const TechnicianDetails = ({
                         <span>{technician.email}</span>
                     </div>
                     <div className="grid grid-cols-[100px_1fr] items-center">
-                        <span className="font-semibold">Téléphone:</span>
-                        <span>{technician.technicianData.phoneNumber || "Non spécifié"}</span>
+                        <span className="font-semibold">Phone:</span>
+                        <span>{technician.technicianData.phoneNumber || "Not specified"}</span>
                     </div>
                     <div className="grid grid-cols-[100px_1fr] items-center">
-                        <span className="font-semibold">Statut:</span>
+                        <span className="font-semibold">Status:</span>
                         <Badge variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}>
-                            {technician.approvalStatus === "VALIDATED" ? "Validé" : "Non validé"}
+                            {technician.approvalStatus === "VALIDATED" ? "Validated" : "Not validated"}
                         </Badge>
                     </div>
 
@@ -306,7 +296,7 @@ export const TechnicianDetails = ({
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[200px] p-0">
                                     <Command autoSave="true">
-                                        <CommandInput placeholder="Rechercher ..." />
+                                        <CommandInput placeholder="Search ..." />
                                         <CommandEmpty>No role found.</CommandEmpty>
 
                                         <CommandGroup>
@@ -341,7 +331,7 @@ export const TechnicianDetails = ({
                     {/* Availabilities Section */}
                     <div className="border-t pt-3">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="font-semibold">Disponibilités:</span>
+                            <span className="font-semibold">Availabilities:</span>
                             <Button
                                 variant="ghost"
                                 size="sm"
@@ -356,7 +346,7 @@ export const TechnicianDetails = ({
                                 disabled={isLoading}
                             >
                                 <Edit className="h-4 w-4 mr-1" />
-                                {isEditingAvailabilities ? "Annuler" : "Modifier"}
+                                {isEditingAvailabilities ? "Cancel" : "Edit"}
                             </Button>
                         </div>
 
@@ -449,10 +439,10 @@ export const TechnicianDetails = ({
                                         className="flex-1"
                                         disabled={isLoading || availabilities.length >= 7}
                                     >
-                                        + Ajouter
+                                        + Add
                                     </Button>
                                     <Button onClick={saveAvailabilities} className="flex-1" disabled={isLoading}>
-                                        {isLoading ? "Enregistrement..." : "Enregistrer"}
+                                        {isLoading ? "Saving..." : "Save"}
                                     </Button>
                                 </div>
                             </div>
@@ -471,7 +461,7 @@ export const TechnicianDetails = ({
                                         ))}
                                     </div>
                                 ) : (
-                                    <span className="text-sm text-gray-500">Aucune disponibilité spécifiée</span>
+                                    <span className="text-sm text-gray-500">No availability specified</span>
                                 )}
                             </>
                         )}
@@ -479,14 +469,14 @@ export const TechnicianDetails = ({
 
                     <div className="border-t pt-3">
                         <div className="grid grid-cols-[100px_1fr] items-center">
-                            <span className="font-semibold">Créé le:</span>
+                            <span className="font-semibold">Created on:</span>
                             <span>{new Date(technician.technicianData.createdAt).toLocaleDateString()}</span>
                         </div>
                     </div>
                 </div>
                 <DialogTrigger asChild>
                     <DialogFooter>
-                        <Button variant="outline">Fermer</Button>
+                        <Button variant="outline">Close</Button>
                     </DialogFooter>
                 </DialogTrigger>
             </DialogContent>

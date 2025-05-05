@@ -40,14 +40,14 @@ export default async function Home() {
                     {!user ? (
                         <Link href="/login">
                             <Button className="bg-persian-green hover:bg-persian-green/90 text-white">
-                                Se connecter
+                                Log in
                             </Button>
                         </Link>
                     ) : (
                         <div className="flex items-center gap-3">
                             {user.role !== "STAFF" && (
                                 <Link href="/dashboard">
-                                    <Button variant="outline">Tableau de bord</Button>
+                                    <Button variant="outline">Dashboard</Button>
                                 </Link>
                             )}
                             <div className="flex items-center gap-2 px-3 py-2 rounded-md border">
@@ -73,11 +73,10 @@ export default async function Home() {
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div className="space-y-6">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                                Système de Gestion de Maintenance de l'<span className="text-persian-green">ESI</span>
+                                Maintenance Management System of <span className="text-persian-green">ESI</span>
                             </h1>
                             <p className="text-muted-foreground text-lg max-w-xl">
-                                Plateforme interne dédiée à la gestion efficace des équipements et des interventions
-                                techniques au sein de l'École Supérieure d'Informatique.
+                                An internal platform dedicated to the efficient management of equipment and technical interventions within the Higher School of Computer Science.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 {!user ? (
@@ -85,7 +84,7 @@ export default async function Home() {
                                         href="/login"
                                         className="bg-persian-green hover:bg-persian-green/90 text-white flex items-center px-2 rounded-lg"
                                     >
-                                        Accéder à la plateforme
+                                        Access the platform
                                         <ArrowRight className="ml-2 h-4 w-4" />
                                     </Link>
                                 ) : (
@@ -95,7 +94,7 @@ export default async function Home() {
                                                 size="lg"
                                                 className="bg-persian-green hover:bg-persian-green/90 text-white"
                                             >
-                                                Accéder au tableau de bord
+                                                Access the dashboard
                                                 <ArrowRight className="ml-2 h-4 w-4" />
                                             </Button>
                                         </Link>
@@ -103,7 +102,7 @@ export default async function Home() {
                                 )}
                                 <Link href="/signaler">
                                     <Button size="lg" variant="outline">
-                                        Signaler un problème
+                                        Report a problem
                                     </Button>
                                 </Link>
                             </div>
@@ -124,43 +123,42 @@ export default async function Home() {
             <section className="py-20 bg-background">
                 <div className="container mx-auto px-4">
                     <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-3xl font-bold mb-4">Fonctionnalités principales</h2>
+                        <h2 className="text-3xl font-bold mb-4">Main Features</h2>
                         <p className="text-muted-foreground">
-                            Notre plateforme offre des outils puissants pour gérer efficacement la maintenance des
-                            équipements de l'ESI
+                            Our platform offers powerful tools to efficiently manage the maintenance of ESI's equipment.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <FeatureCard
                             icon={<ClipboardCheck className="h-10 w-10 text-persian-green" />}
-                            title="Gestion des signalements"
-                            description="Soumettez et suivez facilement les rapports d'incidents techniques et les demandes d'intervention."
+                            title="Incident Management"
+                            description="Easily submit and track technical incident reports and intervention requests."
                         />
                         <FeatureCard
                             icon={<Building2 className="h-10 w-10 text-persian-green" />}
-                            title="Gestion des actifs"
-                            description="Inventoriez et surveillez tous les équipements et ressources de l'école."
+                            title="Asset Management"
+                            description="Inventory and monitor all school equipment and resources."
                         />
                         <FeatureCard
                             icon={<CalendarClock className="h-10 w-10 text-persian-green" />}
-                            title="Planification"
-                            description="Organisez et planifiez efficacement les interventions de maintenance préventive et corrective."
+                            title="Scheduling"
+                            description="Organize and efficiently plan preventive and corrective maintenance interventions."
                         />
                         <FeatureCard
                             icon={<UserCheck className="h-10 w-10 text-persian-green" />}
-                            title="Gestion des techniciens"
-                            description="Assignez les bonnes compétences aux interventions appropriées pour une résolution efficace."
+                            title="Technician Management"
+                            description="Assign the right skills to appropriate interventions for effective resolution."
                         />
                         <FeatureCard
                             icon={<BarChart3 className="h-10 w-10 text-persian-green" />}
-                            title="Tableaux de bord"
-                            description="Visualisez les indicateurs clés de performance et prenez des décisions basées sur les données."
+                            title="Dashboards"
+                            description="Visualize key performance indicators and make data-driven decisions."
                         />
                         <FeatureCard
                             icon={<Shield className="h-10 w-10 text-persian-green" />}
-                            title="Gestion des accès"
-                            description="Sécurisez l'accès aux fonctionnalités selon les rôles et responsabilités."
+                            title="Access Management"
+                            description="Secure access to features based on roles and responsibilities."
                         />
                     </div>
                 </div>
@@ -170,32 +168,32 @@ export default async function Home() {
             <section className="py-20 bg-card">
                 <div className="container mx-auto px-4">
                     <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-3xl font-bold mb-4">Comment ça marche ?</h2>
+                        <h2 className="text-3xl font-bold mb-4">How does it work?</h2>
                         <p className="text-muted-foreground">
-                            Un processus simple pour gérer efficacement la maintenance des équipements
+                            A simple process to efficiently manage equipment maintenance.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <StepCard
                             number={1}
-                            title="Signalement"
-                            description="Un utilisateur signale un problème technique ou une demande de maintenance."
+                            title="Reporting"
+                            description="A user reports a technical problem or maintenance request."
                         />
                         <StepCard
                             number={2}
-                            title="Attribution"
-                            description="Les administrateurs assignent l'intervention à un technicien qualifié."
+                            title="Assignment"
+                            description="Administrators assign the intervention to a qualified technician."
                         />
                         <StepCard
                             number={3}
-                            title="Résolution"
-                            description="Le technicien intervient et documente la résolution du problème."
+                            title="Resolution"
+                            description="The technician intervenes and documents the resolution of the problem."
                         />
                         <StepCard
                             number={4}
                             title="Validation"
-                            description="L'intervention est validée et les statistiques sont mises à jour."
+                            description="The intervention is validated and statistics are updated."
                         />
                     </div>
                 </div>
@@ -206,45 +204,41 @@ export default async function Home() {
                 <div className="container mx-auto px-4">
                     <div className="lg:flex items-center gap-12">
                         <div className="lg:w-1/2 mb-10 lg:mb-0">
-                            <h2 className="text-3xl font-bold mb-6">Gérez la maintenance en toute simplicité</h2>
+                            <h2 className="text-3xl font-bold mb-6">Manage maintenance with ease</h2>
                             <p className="text-muted-foreground mb-6">
-                                Notre tableau de bord intuitif vous permet de visualiser et de gérer l'ensemble des
-                                opérations de maintenance des équipements de l'ESI en un coup d'œil.
+                                Our intuitive dashboard allows you to visualize and manage all maintenance operations for ESI's equipment at a glance.
                             </p>
                             <ul className="space-y-4">
-                                <FeatureItem>Vue d'ensemble des interventions en cours</FeatureItem>
-                                <FeatureItem>Statistiques détaillées en temps réel</FeatureItem>
-                                <FeatureItem>Gestion des utilisateurs et des permissions</FeatureItem>
-                                <FeatureItem>Rapports et analyses personnalisables</FeatureItem>
+                                <FeatureItem>Overview of ongoing interventions</FeatureItem>
+                                <FeatureItem>Detailed real-time statistics</FeatureItem>
+                                <FeatureItem>User and permission management</FeatureItem>
+                                <FeatureItem>Customizable reports and analyses</FeatureItem>
                             </ul>
 
                             <div className="mt-8 space-y-4">
                                 {user?.role === "STAFF" ? (
                                     <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
                                         <p className="text-amber-800">
-                                            Le tableau de bord est réservé aux techniciens et administrateurs. Si vous
-                                            êtes technicien ou administrateur, veuillez contacter un administrateur pour
-                                            faire valider votre compte.
+                                            The dashboard is reserved for technicians and administrators. If you are a technician or administrator, please contact an administrator to validate your account.
                                         </p>
                                     </div>
                                 ) : !user ? (
                                     <>
                                         <p className="text-sm text-muted-foreground mb-2">
-                                            <strong>Vous êtes technicien ou administrateur ?</strong> Connectez-vous
-                                            pour accéder au tableau de bord complet de gestion de la maintenance.
+                                            <strong>Are you a technician or administrator?</strong> Log in to access the full maintenance management dashboard.
                                         </p>
                                         <Link
                                             className="text-persian-green group hover:text-persian-green/90 p-1  flex items-center"
                                             href={"/login"}
                                         >
-                                            Accéder au tableau de bord
+                                            Access the dashboard
                                             <ChevronRight className="ml-1 h-4 w-4 group-hover:ml-4 duration-200" />
                                         </Link>
                                     </>
                                 ) : (
                                     <Link href="/dashboard">
                                         <Button className="bg-persian-green hover:bg-persian-green/90 text-white">
-                                            Accéder au tableau de bord
+                                            Access the dashboard
                                             <ChevronRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </Link>
@@ -265,10 +259,10 @@ export default async function Home() {
                                     <GanttChartSquare className="h-16 w-16 mx-auto text-persian-green opacity-50" />
                                     <p className="text-muted-foreground">
                                         {!user
-                                            ? "Connectez-vous pour accéder au tableau de bord"
+                                            ? "Log in to access the dashboard"
                                             : user.role === "STAFF"
-                                            ? "Accès réservé aux techniciens et administrateurs"
-                                            : "Accédez à votre tableau de bord complet"}
+                                            ? "Access reserved for technicians and administrators"
+                                            : "Access your complete dashboard"}
                                     </p>
                                 </div>
                             </div>
@@ -280,22 +274,21 @@ export default async function Home() {
             {/* CTA Section */}
             <section className="py-16 bg-persian-green text-white">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold mb-6">Prêt à améliorer la gestion de la maintenance ?</h2>
+                    <h2 className="text-3xl font-bold mb-6">Ready to improve maintenance management?</h2>
                     <p className="max-w-2xl mx-auto mb-10 opacity-90">
-                        Rejoignez la plateforme interne de l'ESI et contribuez à maintenir nos équipements en parfait
-                        état de fonctionnement.
+                        Join ESI's internal platform and help keep our equipment in perfect working condition.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         {!user ? (
                             <Link href="/login">
                                 <Button size="lg" variant="secondary">
-                                    Se connecter
+                                    Log in
                                 </Button>
                             </Link>
                         ) : (
                             <Link href="/dashboard">
                                 <Button size="lg" variant="secondary" disabled={user.role === "STAFF"}>
-                                    Accéder au tableau de bord
+                                    Access the dashboard
                                 </Button>
                             </Link>
                         )}
@@ -304,7 +297,7 @@ export default async function Home() {
                                 size="lg"
                                 className=" text-white bg-hint-text   hover:bg-white hover:text-persian-green"
                             >
-                                Signaler un problème
+                                Report a problem
                             </Button>
                         </Link>
                     </div>
@@ -321,7 +314,7 @@ export default async function Home() {
                                 <p className="font-semibold">
                                     <span className="text-persian-green">ESI</span>Maint
                                 </p>
-                                <p className="text-xs text-muted-foreground">Système de Gestion de Maintenance</p>
+                                <p className="text-xs text-muted-foreground">Maintenance Management System</p>
                             </div>
                         </div>
                         <div className="flex flex-col items-center md:items-end">
@@ -331,7 +324,7 @@ export default async function Home() {
                                     target="_blank"
                                     className="text-muted-foreground hover:text-foreground"
                                 >
-                                    Site officiel ESI
+                                    Official ESI Website
                                 </Link>
                                 <Separator orientation="vertical" className="h-4" />
                                 <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
@@ -339,7 +332,7 @@ export default async function Home() {
                                 </Link>
                             </div>
                             <p className="text-xs text-muted-foreground">
-                                © {new Date().getFullYear()} École Supérieure d'Informatique. Tous droits réservés.
+                                © {new Date().getFullYear()} Higher School of Computer Science. All rights reserved.
                             </p>
                         </div>
                     </div>

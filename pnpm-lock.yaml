@@ -83,6 +83,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
       framer-motion:
         specifier: ^12.7.4
         version: 12.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -148,7 +151,7 @@ importers:
         specifier: ^20
         version: 20.17.24
       '@types/react':
-        specifier: ^19
+        specifier: ^19.0.12
         version: 19.0.12
       '@types/react-dom':
         specifier: ^19
@@ -1196,6 +1199,9 @@ packages:
   fast-equals@5.2.2:
     resolution: {integrity: sha512-V7/RktU11J3I36Nwq2JnZEM7tNm17eBJz+u25qdxBZeCKiX6BkVSZQjwWIr+IobgnZy+ag73tTZgZi7tr0LrBw==}
     engines: {node: '>=6.0.0'}
+
+  file-saver@2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
 
   framer-motion@12.7.4:
     resolution: {integrity: sha512-jX0bPsTmU0oPZTYz/dVyD0dmOyEOEJvdn0TaZBE5I8g2GvVnnQnW9f65cJnoVfUkY3WZWNXGXnPbVA9YnaIfVA==}
@@ -2552,6 +2558,8 @@ snapshots:
   eventemitter3@4.0.7: {}
 
   fast-equals@5.2.2: {}
+
+  file-saver@2.0.5: {}
 
   framer-motion@12.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:

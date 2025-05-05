@@ -13,17 +13,17 @@ async function Page() {
     const users: User[] = data?.data;
 
     return (
-        <Tabs defaultValue="Tous" className="p-4 h-full">
+        <Tabs defaultValue="All" className="p-4 h-full">
             <TabsList className="grid  grid-cols-2 bg-muted w-[400px]">
-                <TabsTrigger value="Tous">Tous</TabsTrigger>
-                <TabsTrigger value="Demandes">Demandes</TabsTrigger>
+                <TabsTrigger value="All">All</TabsTrigger>
+                <TabsTrigger value="Requests">Requests</TabsTrigger>
             </TabsList>
-            <TabsContent value="Tous" className="h-full ">
+            <TabsContent value="All" className="h-full ">
                 <Card className="h-[calc(100vh-9rem)]">
                     <AllUsers users={users} />
                 </Card>
             </TabsContent>
-            <TabsContent value="Demandes">
+            <TabsContent value="Requests">
                 <Card className="h-[calc(100vh-9rem)] overflow-scroll">
                     <ValidateUsers users={users.filter((user) => user.approvalStatus === "PENDING")} />
                 </Card>

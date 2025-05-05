@@ -20,12 +20,12 @@ async function PlanifierPage() {
 
     return (
         <div className="p-6 max-w-6xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Planification de Maintenance Préventive</h1>
+            <h1 className="text-2xl font-bold mb-6">Preventive Maintenance Planning</h1>
 
             <Tabs defaultValue="planifier" className="w-full">
                 <TabsList className="grid grid-cols-2 w-[400px]">
-                    <TabsTrigger value="planifier">Planifier</TabsTrigger>
-                    <TabsTrigger value="taches">Tâches planifiées</TabsTrigger>
+                    <TabsTrigger value="planifier">Plan</TabsTrigger>
+                    <TabsTrigger value="taches">Planned tasks</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="planifier">

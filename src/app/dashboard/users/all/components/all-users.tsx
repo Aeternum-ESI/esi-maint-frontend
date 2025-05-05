@@ -52,7 +52,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                     </PopoverTrigger>
                     <PopoverContent className="w-56" align="end">
                         <div className="space-y-2">
-                            <h4 className="font-medium leading-none">Filtrer par rôle</h4>
+                            <h4 className="font-medium leading-none">Filter by role</h4>
                             <div className="flex flex-col space-y-1 pt-2">
                                 <RadioGroup
                                     value={roleFilter}
@@ -62,7 +62,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="ALL" id="all" />
-                                        <Label htmlFor="all">Tous</Label>
+                                        <Label htmlFor="all">All</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="ADMIN" id="admin" />
@@ -74,7 +74,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="TECHNICIAN" id="technician" />
-                                        <Label htmlFor="technician">Technicien</Label>
+                                        <Label htmlFor="technician">Technician</Label>
                                     </div>
                                 </RadioGroup>
                             </div>
@@ -82,7 +82,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                     </PopoverContent>
                 </Popover>
                 <Input
-                    placeholder="Rechercher un admin"
+                    placeholder="Search for an admin"
                     value={search}
                     className="w-96 "
                     onChange={(e) => {
@@ -93,7 +93,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
             <Table className="w-[calc(100%-2rem)] mx-auto h-full ">
                 <TableHeader className="h-12">
                     <TableRow className="  text-white ">
-                        <TableHead className=" text-white bg-grey-blue rounded-tl-lg">Nom </TableHead>
+                        <TableHead className=" text-white bg-grey-blue rounded-tl-lg">Name </TableHead>
                         <TableHead className=" text-white max-lg:hidden bg-grey-blue">Email</TableHead>
                         <TableHead className="text-white max-sm:hidden bg-grey-blue">Role</TableHead>
                         <TableHead className="text-white max-lg:hidden bg-grey-blue">Status</TableHead>
@@ -106,7 +106,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                             <TableCell className="font-medium">
                                 <div className="flex items-center gap-2">
                                     <Image
-                                        src={user.avatarUrl}
+                                        src={user.avatarUrl || null}
                                         width={100}
                                         height={100}
                                         alt=""
@@ -130,7 +130,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                                         <SelectGroup>
                                             <SelectItem value="ADMIN">Admin</SelectItem>
                                             <SelectItem value="STAFF">Staff</SelectItem>
-                                            <SelectItem value="TECHNICIAN">Technicien</SelectItem>
+                                            <SelectItem value="TECHNICIAN">Technician</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -142,7 +142,7 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                                         <Edit2 className="mr-1" />
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className="w-fit mr-4">
-                                        <DropdownMenuItem variant="destructive">Désactiver</DropdownMenuItem>
+                                        <DropdownMenuItem variant="destructive">Disable</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>
@@ -160,11 +160,11 @@ export const ValidateUsers = ({ users }: { users: User[] }) => {
             <Table className="w-[calc(100%-2rem)] mx-auto h-full ">
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Nom </TableHead>
+                        <TableHead>Name </TableHead>
                         <TableHead className="max-lg:hidden">Email</TableHead>
                         <TableHead className="max-sm:hidden">Role</TableHead>
                         <TableHead className="max-lg:hidden">Status</TableHead>
-                        <TableHead className="text-right">Valider</TableHead>
+                        <TableHead className="text-right">Validate</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

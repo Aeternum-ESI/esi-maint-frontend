@@ -34,13 +34,13 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
 
     // Periods options
     const periodOptions = [
-        { value: "1", label: "Chaque jour" }, // 1 day
-        { value: "7", label: "Chaque semaine" }, // 7 days
-        { value: "14", label: "Toutes les 2 semaines" }, // 14 days
-        { value: "30", label: "Chaque mois" }, // 30 days
-        { value: "90", label: "Chaque trimestre" }, // 90 days
-        { value: "180", label: "Chaque semestre" }, // 180 days
-        { value: "365", label: "Chaque année" }, // 365 days
+        { value: "1", label: "Every day" }, // 1 day
+        { value: "7", label: "Every week" }, // 7 days
+        { value: "14", label: "Every 2 weeks" }, // 14 days
+        { value: "30", label: "Every month" }, // 30 days
+        { value: "90", label: "Every quarter" }, // 90 days
+        { value: "180", label: "Every semester" }, // 180 days
+        { value: "365", label: "Every year" }, // 365 days
     ];
 
     // Flatten categories for easier selection
@@ -65,27 +65,27 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
         e.preventDefault();
 
         if (!selectedDate) {
-            toast.error("Veuillez sélectionner une date de début");
+            toast.error("Please select a start date");
             return;
         }
 
         if (isAssetSelected && !selectedAssetId) {
-            toast.error("Veuillez sélectionner un asset");
+            toast.error("Please select an asset");
             return;
         }
 
         if (!isAssetSelected && !selectedCategoryId) {
-            toast.error("Veuillez sélectionner une catégorie");
+            toast.error("Please select a category");
             return;
         }
 
         if (!period) {
-            toast.error("Veuillez sélectionner une période");
+            toast.error("Please select a period");
             return;
         }
 
         if (!description.trim()) {
-            toast.error("Veuillez ajouter une description");
+            toast.error("Please add a description");
             return;
         }
 
@@ -108,8 +108,6 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                 // Note: assetId and categoryId are mutually exclusive, only one should be set
             };
 
-           
-
             const result = await onSubmit(data);
 
             if (result.success) {
@@ -123,7 +121,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                 toast.error(result.message);
             }
         } catch (error) {
-            toast.error("Une erreur est survenue lors de la planification");
+            toast.error("An error occurred during planning");
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -140,7 +138,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                     onClick={() => setIsAssetSelected(true)}
                     className="flex-1"
                 >
-                    Asset spécifique
+                    Specific asset
                 </Button>
                 <Button
                     type="button"
@@ -148,7 +146,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                     onClick={() => setIsAssetSelected(false)}
                     className="flex-1"
                 >
-                    Catégorie d'assets
+                    Asset category
                 </Button>
             </div>
 
@@ -166,14 +164,14 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                             >
                                 {selectedAssetId
                                     ? assets.find((asset) => asset.id === selectedAssetId)?.name
-                                    : "Sélectionner un asset"}
+                                    : "Select an asset"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
                             <Command>
-                                <CommandInput placeholder="Rechercher un asset..." />
-                                <CommandEmpty>Aucun asset trouvé.</CommandEmpty>
+                                <CommandInput placeholder="Search for an asset..." />
+                                <CommandEmpty>No asset found.</CommandEmpty>
                                 <CommandGroup>
                                     {assets.map((asset) => (
                                         <CommandItem
@@ -203,7 +201,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
             {/* Category Selector with Command */}
             {!isAssetSelected && (
                 <div className="grid gap-2">
-                    <Label htmlFor="category">Catégorie</Label>
+                    <Label htmlFor="category">Category</Label>
                     <Popover open={categoryPopoverOpen} onOpenChange={setCategoryPopoverOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -214,14 +212,14 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                             >
                                 {selectedCategoryId
                                     ? flattenedCategories.find((category) => category.id === selectedCategoryId)?.name
-                                    : "Sélectionner une catégorie"}
+                                    : "Select a category"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0 max-h-[300px] overflow-auto">
                             <Command>
-                                <CommandInput placeholder="Rechercher une catégorie..." />
-                                <CommandEmpty>Aucune catégorie trouvée.</CommandEmpty>
+                                <CommandInput placeholder="Search for a category..." />
+                                <CommandEmpty>No category found.</CommandEmpty>
                                 <CommandGroup>
                                     {flattenedCategories.map((category) => (
                                         <CommandItem
@@ -252,10 +250,10 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
 
             {/* Period Selector */}
             <div className="grid gap-2">
-                <Label htmlFor="period">Période</Label>
+                <Label htmlFor="period">Period</Label>
                 <Select value={period} onValueChange={setPeriod}>
                     <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner une période" />
+                        <SelectValue placeholder="Select a period" />
                     </SelectTrigger>
                     <SelectContent>
                         {periodOptions.map((option) => (
@@ -272,7 +270,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                     id="description"
-                    placeholder="Description détaillée de la tâche préventive..."
+                    placeholder="Detailed description of the preventive task..."
                     value={description}
                     className="min-h-32"
                     onChange={(e) => setDescription(e.target.value)}
@@ -282,10 +280,10 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
 
             {/* Priority Selector */}
             <div className="grid gap-2">
-                <Label htmlFor="priority">Priorité</Label>
+                <Label htmlFor="priority">Priority</Label>
                 <Select value={priority} onValueChange={(value) => setPriority(value as Priority)}>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Sélectionner une priorité">
+                        <SelectValue placeholder="Select a priority">
                             {priority && (
                                 <div className="flex items-center gap-2">
                                     <div
@@ -324,7 +322,7 @@ export function PlanificationForm({ selectedDate, onSubmit, assets, categories }
             {/* Submit Button */}
             <div className="flex justify-end">
                 <Button type="submit" disabled={isSubmitting || !selectedDate}>
-                    {isSubmitting ? "Planification en cours..." : "Planifier"}
+                    {isSubmitting ? "Planning in progress..." : "Plan"}
                 </Button>
             </div>
         </form>

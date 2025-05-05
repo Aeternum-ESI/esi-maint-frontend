@@ -19,32 +19,32 @@ const data = {
         },
         {
             collapsible: false,
-            title: "Signalements",
+            title: "Reports",
             url: "/dashboard/reports",
             icon: TriangleAlert,
         },
         {
-            title: "Utilisateurs",
+            title: "Users",
             url: "/dashboard/users",
             icon: User,
             collapsible: true,
             items: [
                 {
-                    title: "Tous",
+                    title: "All",
                     url: "/dashboard/users/all",
                 },
                 {
-                    title: "Administrateurs",
+                    title: "Administrators",
                     url: "/dashboard/users/admins",
                 },
                 {
-                    title: "Techniciens",
+                    title: "Technicians",
                     url: "/dashboard/users/technicians",
                 },
             ],
         },
         {
-            title: "Planifier",
+            title: "Schedule",
             url: "Planifier",
             icon: BookOpen,
             collapsible: false,
@@ -55,12 +55,6 @@ const data = {
             icon: Building2,
             collapsible: false,
         },
-        /*{
-            title: "Categories",
-            url: "/dashboard/categories",
-            icon: GalleryVerticalEnd,
-            collapsible: false,
-        },*/
     ],
 };
 

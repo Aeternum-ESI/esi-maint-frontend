@@ -20,7 +20,7 @@ async function Page() {
     return (
         <div className="flex items-center justify-center p-6">
             <Card className="w-full max-w-4xl p-6 space-y-6">
-                <h1 className="text-2xl font-bold text-center">Signaler un problème</h1>
+                <h1 className="text-2xl font-bold text-center">Report a Problem</h1>
                 <ReportProblemForm initialAssets={assets} categories={categories} />
             </Card>
         </div>
