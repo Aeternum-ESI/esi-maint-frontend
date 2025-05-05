@@ -56,15 +56,26 @@ export const middleware = async (req: NextRequest) => {
         if (!user) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
-        if (user.role === "STAFF" && user.approvalStatus === "VALIDATED") {
-            return NextResponse.redirect(new URL("/unauthorized", req.url));
-        }
-
         if (user.approvalStatus === "UNSET") {
             return NextResponse.redirect(new URL("/approval", req.url));
         }
 
+        if (user.role !== "ADMIN" || user.approvalStatus !== "VALIDATED") {
+            return NextResponse.redirect(new URL("/unauthorized", req.url));
+        }
+
         return NextResponse.next();
+    }
+
+    if (req.nextUrl.pathname.startsWith("/login")) {
+        const user = await getUser();
+
+        if (user) {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
+    }
+
+    if (req.nextUrl.pathname.startsWith("/techicians")) {
     }
 
     NextResponse.next();
