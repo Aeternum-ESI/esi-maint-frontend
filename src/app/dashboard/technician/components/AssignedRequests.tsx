@@ -1,11 +1,15 @@
+import { completeInterventionRequest } from "@/app/actions/interventionRequests.action";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { Asset, InterventionRequestStatus, OperationType, Priority, TechnicianAssignment } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Calendar, CheckCircle2, Clock, LocateFixed, MapPin, TriangleAlert, Wrench } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export const AssignedRequests = ({ assignments }: { assignments: TechnicianAssignment[] }) => {
     // Group assignments by completion status
@@ -244,16 +248,56 @@ export const AssignedRequests = ({ assignments }: { assignments: TechnicianAssig
                                 </CardContent>
 
                                 <CardFooter className="pt-2 flex justify-end gap-2">
-                                    <form>
-                                        <input type="hidden" name="assignmentId" value={assignment.id} />
-                                        <Button
-                                            type="submit"
-                                            formAction="/dashboard/technician/complete-assignment"
-                                            className="bg-primary hover:bg-primary/90"
-                                        >
-                                            Mark as Completed
-                                        </Button>
-                                    </form>
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button type="submit" className="bg-primary hover:bg-primary/90">
+                                                Mark as Completed
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogTitle>Complete Assignment</DialogTitle>
+                                            <div className="space-y-4">
+                                                <p className="text-sm text-muted-foreground">
+                                                    Are you sure you want to mark this assignment as completed?
+                                                </p>
+
+                                                <form
+                                                    action={async (formData) => {
+                                                        "use server";
+                                                        const description = formData.get("description") as string;
+
+                                                        // Server-side validation to ensure description is provided
+                                                        if (!description || description.trim() === "") {
+                                                            return;
+                                                        }
+
+                                                        await completeInterventionRequest(
+                                                            assignment.interventionRequest!.id,
+                                                            description
+                                                        );
+                                                    }}
+                                                >
+                                                    <Textarea
+                                                        placeholder="Add completion details (required)..."
+                                                        name="description"
+                                                        className="w-full h-24 p-2 border rounded-md"
+                                                        required
+                                                    />
+                                                    <div className="flex items-center w-full justify-end gap-2 mt-4">
+                                                        <DialogClose asChild>
+                                                            <Button variant="outline">Cancel</Button>
+                                                        </DialogClose>
+                                                        <Button
+                                                            type="submit"
+                                                            className="bg-primary hover:bg-primary/90"
+                                                        >
+                                                            Complete
+                                                        </Button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
                                 </CardFooter>
                             </Card>
                         ))}

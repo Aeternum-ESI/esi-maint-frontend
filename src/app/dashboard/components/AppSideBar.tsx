@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { BookOpen, Building2, GalleryVerticalEnd, LayoutDashboard, TriangleAlert, User } from "lucide-react";
 
 import { NavMain } from "./nav-main";
@@ -59,13 +60,29 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const router = useRouter();
+
+    // Move the logout function inside the component
+    const logout = () => {
+        // Clear the authentication token (example: from localStorage or cookies)
+        localStorage.removeItem("access_token");
+
+        // Redirect to the login page
+        router.push("/login");
+    };
+
     return (
         <Sidebar collapsible="icon" className="" {...props}>
             <NavHeader />
             <SidebarContent className=" font-base">
                 <NavMain items={data.navMain} />
             </SidebarContent>
-            <SidebarFooter>Logout</SidebarFooter>
+            {/* Connect the logout function to the button */}
+            <SidebarFooter>
+                <button onClick={logout} className="text-red-500 hover:underline">
+                    Logout
+                </button>
+            </SidebarFooter>
             <SidebarRail />
         </Sidebar>
     );

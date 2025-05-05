@@ -279,7 +279,11 @@ export default function ReportProblemForm({ initialAssets, categories }: ReportP
                         ) : (
                             <div className="relative">
                                 <img
-                                    src={previewImage || null}
+                                    src={previewImage || ""} 
+                                    onError={(e) => {
+                                        e.currentTarget.src = "/static/bigLogo.png";
+                                    }}
+
                                     alt="Preview"
                                     className="w-full h-64 object-contain bg-gray-100 rounded-lg border"
                                 />

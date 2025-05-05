@@ -96,6 +96,7 @@ export const updateInterventionRequest = async (id: number, updateData: Partial<
 
 // Complete an intervention request
 export const completeInterventionRequest = async (id: number, description: string) => {
+    console.log("Completing intervention request with ID:", id, "and description:", description);
     const response = await $fetch(`/intervention-requests/${id}/complete`, {
         method: "POST",
         body: JSON.stringify({ description }),
@@ -107,7 +108,7 @@ export const completeInterventionRequest = async (id: number, description: strin
     }
 
     // Revalidate relevant paths
-    revalidatePath("/dashboard/reports");
+    revalidatePath("/dashboard/technician");
 
     return response.data?.data;
 };

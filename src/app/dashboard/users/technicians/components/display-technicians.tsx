@@ -89,7 +89,7 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
             <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                     <Avatar className="h-12 w-12">
-                        <AvatarImage src={technician.avatarUrl || null} alt={technician.name} />
+                        <AvatarImage src={technician.avatarUrl} alt={technician.name} />
                         <AvatarFallback>{technician.name?.charAt(0) || "T"}</AvatarFallback>
                     </Avatar>
                     <Badge variant="outline" className="ml-2">
@@ -125,7 +125,7 @@ const TechnicianCard = ({ technician, professions }: { technician: Technician; p
                     </p>
                     <Badge
                         className="m-2"
-                        variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}
+                        variant={technician.approvalStatus === "VALIDATED" ? "outline" : "destructive"}
                     >
                         {technician.approvalStatus === "VALIDATED" ? "Validated" : "Not validated"}
                     </Badge>
@@ -273,7 +273,7 @@ export const TechnicianDetails = ({
                     </div>
                     <div className="grid grid-cols-[100px_1fr] items-center">
                         <span className="font-semibold">Status:</span>
-                        <Badge variant={technician.approvalStatus === "VALIDATED" ? "success" : "destructive"}>
+                        <Badge variant={technician.approvalStatus === "VALIDATED" ? "secondary" : "destructive"}>
                             {technician.approvalStatus === "VALIDATED" ? "Validated" : "Not validated"}
                         </Badge>
                     </div>

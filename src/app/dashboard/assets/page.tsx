@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Category, Asset } from "@/lib/types";
 import { DisplayCategories } from "./components/display-categories";
 import { DisplayAssets } from "./components/display-assets";
+import ExportAssets from "./components/export-assets";
 
 async function Page() {
     const { data: categoriesData, error: categoriesError } = await $fetch("/categories", {
@@ -31,10 +32,13 @@ async function Page() {
 
     return (
         <Tabs defaultValue="Tous" className="p-4 h-full">
-            <TabsList className="grid  grid-cols-2 bg-muted w-[400px]">
-                <TabsTrigger value="Tous">Assets</TabsTrigger>
-                <TabsTrigger value="Demandes">Categories</TabsTrigger>
-            </TabsList>
+            <div className="flex justify-between items-center mb-4">
+                <TabsList className="grid grid-cols-2 bg-muted w-[400px]">
+                    <TabsTrigger value="Tous">Assets</TabsTrigger>
+                    <TabsTrigger value="Demandes">Categories</TabsTrigger>
+                </TabsList>
+                <ExportAssets assets={assets} />
+            </div>
             <TabsContent value="Tous" className="h-full">
                 <Card className="h-[calc(100vh-9rem)] p-4 overflow-auto">
                     <DisplayAssets assets={assets} locations={locations} categories={categories} />

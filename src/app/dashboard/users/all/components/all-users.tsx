@@ -106,7 +106,10 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                             <TableCell className="font-medium">
                                 <div className="flex items-center gap-2">
                                     <Image
-                                        src={user.avatarUrl || null}
+                                        src={user.avatarUrl }
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = "/static/bigLogo.png";
+                                        }}
                                         width={100}
                                         height={100}
                                         alt=""
