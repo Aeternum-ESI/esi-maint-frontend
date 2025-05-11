@@ -74,8 +74,23 @@ export const middleware = async (req: NextRequest) => {
             return NextResponse.redirect(new URL("/", req.url));
         }
     }
+    if (req.nextUrl.pathname.startsWith("/signaler")) {
+        const user = await getUser();
 
-    if (req.nextUrl.pathname.startsWith("/techicians")) {
+        if (!user) {
+            return NextResponse.redirect(new URL("/login", req.url));
+        }
+        return NextResponse.next();
+    }
+
+    if (req.nextUrl.pathname.startsWith("/techician")) {
+        const user = await getUser();
+
+        if (user.role !== "TECHNICIAN" || user.approvalStatus !== "VALIDATED") {
+            return NextResponse.redirect(new URL("/unauthorized", req.url));
+        }
+
+        return NextResponse.next();
     }
 
     NextResponse.next();

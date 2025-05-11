@@ -46,7 +46,7 @@ const data = {
         },
         {
             title: "Schedule",
-            url: "Planifier",
+            url: "dashboard/Planifier",
             icon: BookOpen,
             collapsible: false,
         },
