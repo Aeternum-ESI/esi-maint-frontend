@@ -8,17 +8,33 @@ type ChartData = {
     value: number;
 }[];
 
-// Colors for charts
+// Enhanced colors for charts - more vibrant and distinct
 const COLORS = [
-    "#0088FE", // blue
-    "#00C49F", // teal
-    "#FFBB28", // yellow
-    "#FF8042", // orange
-    "#8884d8", // purple
-    "#82ca9d", // green
-    "#ff6b6b", // red
-    "#a29bfe", // lavender
+    "#3498db", // blue
+    "#2ecc71", // green
+    "#f39c12", // yellow
+    "#e74c3c", // red
+    "#9b59b6", // purple
+    "#1abc9c", // teal
+    "#e67e22", // orange
+    "#34495e", // dark blue
 ];
+
+// Custom tooltip that adds color
+const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+        const color = payload[0].color;
+        return (
+            <div className="bg-white p-2 border rounded shadow-md">
+                <p className="font-medium" style={{ color }}>{payload[0].name}</p>
+                <p className="text-sm">
+                    Count: <span className="font-bold" style={{ color }}>{payload[0].value}</span>
+                </p>
+            </div>
+        );
+    }
+    return null;
+};
 
 export function DonutChart({ data }: { data: ChartData }) {
     if (!data || data.length === 0) {
@@ -40,17 +56,14 @@ export function DonutChart({ data }: { data: ChartData }) {
                         dataKey="value"
                         animationDuration={300}
                         nameKey="name"
-                        label={(entry) => entry.name}
-                        labelLine={false}
+                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                        labelLine={true}
                     >
                         {data.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
-                    <Tooltip
-                        formatter={(value: number) => [value, "Count"]}
-                        labelFormatter={(name: string) => `${name}`}
-                    />
+                    <Tooltip content={<CustomTooltip />} />
                 </PieChart>
             </ResponsiveContainer>
         </div>
@@ -59,7 +72,7 @@ export function DonutChart({ data }: { data: ChartData }) {
 
 export function BarList({ data }: { data: ChartData }) {
     return (
-        <div className="h-96 w-full ">
+        <div className="h-96 w-full">
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <XAxis type="number" />
@@ -69,8 +82,12 @@ export function BarList({ data }: { data: ChartData }) {
                         width={120}
                         tickFormatter={(value) => (value.length > 15 ? `${value.substring(0, 15)}...` : value)}
                     />
-                    <Tooltip formatter={(value: number) => [value, "Count"]} />
-                    <Bar dataKey="value" fill="#0088FE" />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                        {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Bar>
                 </BarChart>
             </ResponsiveContainer>
         </div>

@@ -87,13 +87,13 @@ export function TechnicianStatistics({ topTechnicians }: TechnicianStatisticsPro
                                     <div className="flex justify-between items-center">
                                         <span className="font-medium">{tech.name}</span>
                                         <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                                            {tech.completedInterventions} completed
+                                            <span className="font-bold text-emerald-600">{tech.completedInterventions}</span> completed
                                         </span>
                                     </div>
                                     <div className="text-xs text-muted-foreground mt-1">
-                                        <span>Pending: {tech.pendingInterventions}</span>
+                                        <span>Pending: <span className={`font-medium ${tech.pendingInterventions > 3 ? 'text-amber-600' : 'text-blue-600'}`}>{tech.pendingInterventions}</span></span>
                                         <span className="mx-2">|</span>
-                                        <span>Avg time: {tech.averageCompletionTimeHours}h</span>
+                                        <span>Avg time: <span className={`font-medium ${tech.averageCompletionTimeHours > 24 ? 'text-red-600' : tech.averageCompletionTimeHours > 12 ? 'text-amber-600' : 'text-emerald-600'}`}>{tech.averageCompletionTimeHours}h</span></span>
                                     </div>
                                 </div>
                             ))}

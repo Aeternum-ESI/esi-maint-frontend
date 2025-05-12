@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarList, DonutChart } from "./charts";
+import { Badge } from "@/components/ui/badge";
 
 type AssetStatisticsProps = {
     stats: {
@@ -55,7 +56,20 @@ export function AssetStatistics({ stats }: AssetStatisticsProps) {
         <Card>
             <CardHeader>
                 <CardTitle>Asset Statistics</CardTitle>
-                <CardDescription>Overview of asset distribution</CardDescription>
+                <CardDescription className="flex justify-between">
+                    <span>Overview of asset distribution</span>
+                    <div className="flex gap-2 text-xs">
+                        {stats.byStatus.map((item, idx) => (
+                            <Badge key={idx} variant="outline" className={
+                                item.status === "OPERATIONAL" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                                    item.status === "MAINTENANCE" ? "bg-amber-50 text-amber-700 border-amber-200" :
+                                        "bg-red-50 text-red-700 border-red-200"
+                            }>
+                                {item.status}: <span className="font-bold ml-1">{item.count}</span>
+                            </Badge>
+                        ))}
+                    </div>
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="status">
@@ -86,7 +100,20 @@ export function AssetStatistics({ stats }: AssetStatisticsProps) {
 
                     <TabsContent value="problems" className="pt-4 h-[300px]">
                         {problemData.length > 0 ? (
-                            <BarList data={problemData} />
+                            <>
+                                <BarList data={problemData} />
+                                <div className="mt-2">
+                                    {problemData.slice(0, 3).map((item, idx) => (
+                                        <div key={idx} className="flex justify-between items-center px-3 py-1.5 mb-1 rounded bg-muted/40">
+                                            <span className="font-medium text-sm">{item.name}</span>
+                                            <span className={`text-sm font-bold ${idx === 0 ? 'text-red-500' :
+                                                    idx === 1 ? 'text-orange-500' :
+                                                        'text-amber-500'
+                                                }`}>{item.value} issues</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         ) : (
                             <div className="flex h-full items-center justify-center">
                                 <p className="text-sm text-muted-foreground">No problem data available</p>

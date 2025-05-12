@@ -32,6 +32,17 @@ export function CategoryStatistics({ topCategories }: CategoryStatisticsProps) {
                 {categoryData.length > 0 ? (
                     <div className="h-[300px]">
                         <BarList data={categoryData} />
+                        <div className="mt-4 grid grid-cols-2 gap-2">
+                            {categoryData.slice(0, 4).map((item, index) => (
+                                <div key={index} className="flex justify-between items-center px-2 py-1 rounded-md bg-muted/40">
+                                    <span className="text-sm truncate">{item.name}</span>
+                                    <span className={`font-bold ${index === 0 ? 'text-red-500' :
+                                            index === 1 ? 'text-amber-500' :
+                                                'text-blue-500'
+                                        }`}>{item.value}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ) : (
                     <div className="h-[300px] flex items-center justify-center">

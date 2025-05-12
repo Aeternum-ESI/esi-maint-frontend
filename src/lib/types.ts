@@ -143,6 +143,7 @@ export interface TechnicianAssignment {
     interventionRequest?: InterventionRequest;
     location?: Asset | null;
     createdAt: string;
+    updatedAt: string;
 }
 
 export interface TechnicianAvailability {
