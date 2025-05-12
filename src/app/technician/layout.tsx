@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOutIcon, UserCircleIcon } from "lucide-react";
+import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
     const user = await getUser();
     return (
         <>
-            <header className="flex h-16 shrink-0 w-full items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-isabelline  ">
+            <header className="flex h-16 px-12 shrink-0 w-full items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-isabelline  ">
                 {user.approvalStatus === "VALIDATED" && (
                     <div className="flex items-center gap-2 px-4 w-full ">
                         <Separator orientation="vertical" className="mr-2 h-4" />
@@ -46,10 +48,20 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <LogOutIcon />
-                            Log out
-                        </DropdownMenuItem>
+                        <form action={async () => {
+                            'use server'
+                            redirect('/logout')
+                        }}>
+
+                            <DropdownMenuItem asChild
+                            >
+                                <Button type="submit" variant={"ghost"} className="w-full bg-transparent">
+
+                                    <LogOutIcon />
+                                    Log out
+                                </Button>
+                            </DropdownMenuItem>
+                        </form>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </header>

@@ -244,7 +244,7 @@ export function PlannedTasksList({ scheduledTasks }: PlannedTasksListProps) {
                                         {task.asset ? (
                                             <span className="flex items-center gap-1">
                                                 <Tag className="h-3 w-3 text-persian-green" />
-                                                <span className="font-medium text-slate-700">{task.asset.name}</span>
+                                                <span className="font-medium text-slate-700">{task.asset.name} | {task.asset.inventoryCode}</span>
                                             </span>
                                         ) : task.category ? (
                                             <span className="flex items-center gap-1">

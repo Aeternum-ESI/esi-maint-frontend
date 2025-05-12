@@ -13,6 +13,12 @@ import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+// Operation type labels for formatting code
+const operationTypeLabels: Record<OperationType, string> = {
+    CORRECTIVE: "Corrective",
+    PREVENTIVE: "Preventive"
+};
+
 interface ReportsTableProps {
     reports: Report[];
     error?: string | null;
@@ -175,6 +181,7 @@ export default function ReportsTable({ reports, error }: ReportsTableProps) {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
+                                        <TableHead>Code</TableHead>
                                         <TableHead>Asset</TableHead>
                                         <TableHead>Type</TableHead>
                                         <TableHead>Status</TableHead>
@@ -193,6 +200,14 @@ export default function ReportsTable({ reports, error }: ReportsTableProps) {
                                                 onClick={() => router.push(`/dashboard/reports/${report.id}`)}
                                                 style={{ cursor: "pointer" }}
                                             >
+                                                <TableCell className="font-medium whitespace-nowrap">
+                                                    {`${new Date(report.createdAt)
+                                                        .getFullYear()
+                                                        .toString()
+                                                        .slice(2, 4)}-${operationTypeLabels[report.type].toUpperCase().slice(0, 3)}-${
+                                                        report.id
+                                                    }`}
+                                                </TableCell>
                                                 <TableCell className="font-medium">
                                                     {report.asset?.name || "No Asset"}
                                                     {report.category && (
@@ -228,7 +243,7 @@ export default function ReportsTable({ reports, error }: ReportsTableProps) {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={7} className="text-center py-4 text-gray-500">
+                                            <TableCell colSpan={8} className="text-center py-4 text-gray-500">
                                                 No reports found matching the current filters
                                             </TableCell>
                                         </TableRow>

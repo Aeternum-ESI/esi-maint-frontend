@@ -2,6 +2,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getUser } from "./app/actions/get-user";
+import { revalidatePath } from "next/cache";
 
 // export async function middleware(req: NextRequest) {
 //     const cookieStore = await cookies();
@@ -37,6 +38,12 @@ import { getUser } from "./app/actions/get-user";
 
 export const middleware = async (req: NextRequest) => {
     const cookieStore = await cookies();
+
+    // handle Log oout 
+    if (req.nextUrl.pathname.startsWith("/logout")) {
+        cookieStore.delete("access_token");
+        return NextResponse.redirect(new URL("/", req.url));
+    }
 
     if (req.nextUrl.pathname.startsWith("/oauth")) {
         const oAuthToken = req.nextUrl.searchParams.get("token") || "";

@@ -46,7 +46,7 @@ export default async function Home() {
                     ) : (
                         <div className="flex items-center gap-3">
                             {user.role !== "STAFF" && (
-                                <Link href="/dashboard">
+                                <Link href={user.role === "ADMIN" ? "/dashboard" : "/technician"}>
                                     <Button variant="outline">Dashboard</Button>
                                 </Link>
                             )}
@@ -89,7 +89,7 @@ export default async function Home() {
                                     </Link>
                                 ) : (
                                     user.role !== "STAFF" && (
-                                        <Link href="/dashboard">
+                                        <Link href={user.role === "ADMIN" ? "/dashboard" : "/technician"}>
                                             <Button
                                                 size="lg"
                                                 className="bg-persian-green hover:bg-persian-green/90 text-white"
