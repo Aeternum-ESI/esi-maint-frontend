@@ -74,7 +74,7 @@ export function ReportStatistics({ stats }: ReportStatisticsProps) {
                 <CardDescription>
                     {stats.avgResolutionTime ? (
                         <span>
-                            Average resolution time: <strong>{stats.avgResolutionTime} hours</strong>
+                            Average resolution time: <strong className={`${stats.avgResolutionTime > 48 ? 'text-red-600' : stats.avgResolutionTime > 24 ? 'text-amber-600' : 'text-emerald-600'}`}>{stats.avgResolutionTime} hours</strong>
                         </span>
                     ) : (
                         "Overview of report distribution"
