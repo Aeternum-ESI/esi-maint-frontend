@@ -15,8 +15,8 @@ export function CalendarWrapper({ assets, categories }: { assets: Asset[]; categ
             const result = await createPreventiveTask(data);
             return result;
         } catch (error) {
-            console.error("Error submitting task:", error);
-            return { success: false, message: "An error occurred" };
+            console.error("Erreur lors de la soumission de la tâche:", error);
+            return { success: false, message: "Une erreur est survenue" };
         }
     };
 

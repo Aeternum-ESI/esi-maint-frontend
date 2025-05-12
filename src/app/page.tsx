@@ -105,12 +105,15 @@ export default async function Home() {
                                         Report a problem
                                     </Button>
                                 </Link>
-                                <Link href="/approval">
-                                    <Button size="lg" variant="outline" className="flex items-center gap-2">
+                                {user?.role === "STAFF" && (
+                                    <Link href="/approval">
+                                         <Button size="lg" variant="outline" className="flex items-center gap-2">
                                         <Settings className="h-4 w-4" />
                                         Choose a role
                                     </Button>
-                                </Link>
+                                    </Link>
+                                )}
+                               
                             </div>
                         </div>
                         <div className="relative h-[400px] lg:h-[500px] hidden lg:block">
