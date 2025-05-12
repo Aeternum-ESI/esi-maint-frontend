@@ -38,10 +38,11 @@ export const AdminTable = ({ admins }: { admins: User[] }) => {
                             <TableCell className="font-medium">
                                 <div className="flex items-center gap-2">
                                     <Image
-                                        src={user.avatarUrl}
+                                        src={user.avatarUrl && user.avatarUrl.startsWith("http") ? user.avatarUrl : "/static/bigLogo.png"}
+
                                         width={100}
                                         height={100}
-                                        alt=""
+                                        alt={`${user.name}'s avatar`}
                                         className="size-8 rounded-full"
                                     />
                                     {user.name}

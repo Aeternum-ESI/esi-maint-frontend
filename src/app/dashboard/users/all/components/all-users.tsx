@@ -106,13 +106,11 @@ export const AllUsers = ({ users }: { users: User[] }) => {
                             <TableCell className="font-medium">
                                 <div className="flex items-center gap-2">
                                     <Image
-                                        src={user.avatarUrl }
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = "/static/bigLogo.png";
-                                        }}
+                                        src={user.avatarUrl && user.avatarUrl.startsWith("http") ? user.avatarUrl : "/static/bigLogo.png"}
+
                                         width={100}
                                         height={100}
-                                        alt=""
+                                        alt={`${user.name}'s avatar`}
                                         className="size-8 rounded-full"
                                     />
                                     {user.name}
@@ -181,6 +179,9 @@ export const ValidateUsers = ({ users }: { users: User[] }) => {
                                         height={100}
                                         alt=""
                                         className="size-8 rounded-full"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = "/static/bigLogo.png";
+                                        }}
                                     />
                                     {user.name}
                                 </div>
