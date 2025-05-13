@@ -14,6 +14,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOutIcon, UserCircleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { NavUser } from "../dashboard/components/nav-user";
+import { Notifications } from "../dashboard/components/notifications";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
     const user = await getUser();
@@ -26,44 +28,10 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
                         <PathBreadCrumb />
                     </div>
                 )}
-                <DropdownMenu>
-                    <DropdownMenuTrigger className="p-0 font-normal">
-                        <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                            <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={user.avatarUrl} alt={user.name} />
-                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                            </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{user.name}</span>
-                                <span className="truncate text-xs text-muted-foreground">{user.email}</span>
-                            </div>
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <UserCircleIcon />
-                                Account
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <form action={async () => {
-                            'use server'
-                            redirect('/logout')
-                        }}>
-
-                            <DropdownMenuItem asChild
-                            >
-                                <Button type="submit" variant={"ghost"} className="w-full bg-transparent">
-
-                                    <LogOutIcon />
-                                    Log out
-                                </Button>
-                            </DropdownMenuItem>
-                        </form>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="w-fit flex gap-4 items-center mr-12 ml-auto  ">
+                                        <NavUser user={user} />
+                                        <Notifications />
+                                    </div>
             </header>
 
             {user.approvalStatus === "VALIDATED" ? (

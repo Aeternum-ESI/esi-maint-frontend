@@ -30,7 +30,7 @@ export function CategoryStatistics({ topCategories }: CategoryStatisticsProps) {
             </CardHeader>
             <CardContent>
                 {categoryData.length > 0 ? (
-                    <div className="h-[300px]">
+                    <div className="">
                         <BarList data={categoryData} />
                         <div className="mt-4 grid grid-cols-2 gap-2">
                             {categoryData.slice(0, 4).map((item, index) => (

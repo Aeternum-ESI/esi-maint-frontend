@@ -69,7 +69,7 @@ export function TechnicianStatistics({ topTechnicians }: TechnicianStatisticsPro
                         <p className="text-sm text-muted-foreground">Loading technician statistics...</p>
                     </div>
                 ) : topTechData.length > 0 ? (
-                    <div className="h-[300px]">
+                    <div className="">
                         <BarList data={topTechData} />
                     </div>
                 ) : (

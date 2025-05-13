@@ -100,12 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             href={item.url}
                             key={index}
                             className={`flex items-center ${item.className}`}
-                            onClick={(e) => {
-                                if (item.url === "/logout") {
-                                    e.preventDefault();
-                                    handleNavigation(item.url);
-                                }
-                            }}
+                            
                         >
                             {item.icon && <item.icon className="h-5 w-5 mr-2" />}
                             <span>{item.title}</span>

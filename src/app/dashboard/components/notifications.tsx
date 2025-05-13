@@ -42,9 +42,9 @@ export const Notifications = async () => {
                         </div>
                     </PopoverTrigger>
                 </form>
-                <PopoverContent className="w-96 p-4 mx-4 !text-xs">
+                <PopoverContent className="w-96 p-4 mx-4 !text-xs h-96 overflow-auto relative">
                     {notifcations.length > 0 && (
-                        <div className="flex justify-end py-2">
+                        <div className="flex justify-end py-2 sticky top-0 z-10 ">
                             <form
                                 className="w-fit "
                                 action={async () => {
@@ -56,7 +56,7 @@ export const Notifications = async () => {
                                     revalidatePath("/dashboard");
                                 }}
                             >
-                                <button className="hover:cursor-pointer text-muted-foreground w-fit" type="submit">
+                                <button className="hover:cursor-pointer text-muted-foreground w-fit bg-white rounded-lg p-2" type="submit">
                                     Clear all notifications
                                 </button>
                             </form>
