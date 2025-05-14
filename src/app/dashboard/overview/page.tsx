@@ -6,6 +6,7 @@ import { AssetStatistics } from "./components/asset-statistics";
 import { ReportStatistics } from "./components/report-statistics";
 import { TechnicianStatistics } from "./components/technician-statistics";
 import { CategoryStatistics } from "./components/category-statistics";
+import { fetchTechStats } from "@/app/actions/stats.action";
 
 export const metadata: Metadata = {
     title: "Overview | ESIMaint",
@@ -112,13 +113,18 @@ async function getTopData() {
     }
 }
 
+async function getTechnicianStats() {
+    const { data } = await fetchTechStats();
+    return data?.data;
+}
 export default async function OverviewPage() {
     // Fetch data in parallel
-    const [overviewStats, assetStats, reportStats, topData] = await Promise.all([
+    const [overviewStats, assetStats, reportStats, topData , technicianStats] = await Promise.all([
         getOverviewStats(),
         getAssetStats(),
         getReportStats(),
         getTopData(),
+        getTechnicianStats(),
     ]);
 
     return (
@@ -137,7 +143,7 @@ export default async function OverviewPage() {
 
                 {/* Technician and Category Statistics */}
                 <div className="grid gap-6 lg:grid-cols-2">
-                    <TechnicianStatistics topTechnicians={topData?.topTechnicians} />
+                    <TechnicianStatistics technicianStats={technicianStats} topTechnicians={topData?.topTechnicians} />
                     <CategoryStatistics topCategories={topData?.topCategories} />
                 </div>
             </div>

@@ -39,11 +39,6 @@ import { revalidatePath } from "next/cache";
 export const middleware = async (req: NextRequest) => {
     const cookieStore = await cookies();
 
-    // handle Log oout 
-    if (req.nextUrl.pathname.startsWith("/logout")) {
-        cookieStore.delete("access_token");
-        return NextResponse.redirect(new URL("/", req.url));
-    }
 
     if (req.nextUrl.pathname.startsWith("/oauth")) {
         const oAuthToken = req.nextUrl.searchParams.get("token") || "";
@@ -51,6 +46,9 @@ export const middleware = async (req: NextRequest) => {
         if (oAuthToken.length > 0) {
             cookieStore.set("access_token", oAuthToken, {
                 httpOnly: true,
+                expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+                path: "/",
+                sameSite: "lax"
             });
 
             return NextResponse.redirect(new URL("/", req.url));

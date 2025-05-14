@@ -1,10 +1,7 @@
-"use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserCheck } from "lucide-react";
-import { useEffect, useState } from "react";
 import { BarList } from "./charts";
-import { fetchTechStats } from "@/app/actions/stats.action";
 
 type TechnicianStatsData = {
     id: number;
@@ -22,30 +19,13 @@ type TopTechnicianData = {
 
 type TechnicianStatisticsProps = {
     topTechnicians?: TopTechnicianData;
+    technicianStats?: TechnicianStatsData;
 };
 
-export function TechnicianStatistics({ topTechnicians }: TechnicianStatisticsProps) {
-    const [technicianStats, setTechnicianStats] = useState<TechnicianStatsData | null>(null);
-    const [loading, setLoading] = useState(true);
+export function TechnicianStatistics({ topTechnicians, technicianStats }: TechnicianStatisticsProps) {
+    
 
-    // Fetch technician statistics
-    useEffect(() => {
-        async function fetchTechnicianStats() {
-            try {
-                const { data } = await fetchTechStats();
-
-                if (data) {
-                    setTechnicianStats(data.data);
-                }
-            } catch (error) {
-                console.error("Failed to fetch technician stats:", error);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchTechnicianStats();
-    }, []);
+   
 
     // Format top technicians data for the chart
     const topTechData =
@@ -64,11 +44,7 @@ export function TechnicianStatistics({ topTechnicians }: TechnicianStatisticsPro
                 <UserCheck className="h-5 w-5 text-primary" />
             </CardHeader>
             <CardContent>
-                {loading ? (
-                    <div className="h-[300px] flex items-center justify-center">
-                        <p className="text-sm text-muted-foreground">Loading technician statistics...</p>
-                    </div>
-                ) : topTechData.length > 0 ? (
+                {topTechData.length > 0 ? (
                     <div className="">
                         <BarList data={topTechData} />
                     </div>
@@ -76,8 +52,8 @@ export function TechnicianStatistics({ topTechnicians }: TechnicianStatisticsPro
                     <div className="h-[300px] flex items-center justify-center">
                         <p className="text-sm text-muted-foreground">No technician data available</p>
                     </div>
-                )}
-
+                )
+}
                 {technicianStats && technicianStats.length > 0 && (
                     <div className="mt-4">
                         <h4 className="text-sm font-medium mb-2">Technician Details</h4>

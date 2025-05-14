@@ -6,7 +6,7 @@ import { AppSidebar } from "./components/AppSideBar";
 import { NavUser } from "./components/nav-user";
 import { Notifications } from "./components/notifications";
 import { PathBreadCrumb } from "./components/path-bradcrumb";
-import React, { Suspense } from "react";
+
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     const user = await getUser();
@@ -37,7 +37,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
                     </div>
                 </header>
                 {user.approvalStatus === "VALIDATED" ? (
-                    <div className="w-full h-full bg-isabelline">{children}</div>
+                    <div className="w-full h-full bg-isabelline">
+                       
+                            {children}
+                           
+                        </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center gap-4 h-full ">
                         <h1 className="text-3xl font-bold">Your account is pending approval</h1>

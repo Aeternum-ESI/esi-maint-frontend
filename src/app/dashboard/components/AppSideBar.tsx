@@ -77,15 +77,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const router = useRouter();
 
-    // Handle special navigation cases like logout
-    const handleNavigation = (url: string) => {
-        if (url === "/logout") {
-            // Clear the authentication token
-            localStorage.removeItem("access_token");
-            // Redirect to the login page
-            router.push("/login");
-        }
-    };
+
 
     return (
         <Sidebar collapsible="icon" className="" {...props}>
@@ -98,6 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     {data.navFooter.map((item, index) => (
                         <Link 
                             href={item.url}
+                            prefetch={false}
                             key={index}
                             className={`flex items-center ${item.className}`}
                             
