@@ -5,6 +5,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { streamText } from "ai";
 import { headers } from "next/headers";
+import { BACKEND_URL } from "@/lib/const";
 
 const requestSchema = z.object({
     prompt: z.string().min(1),
@@ -57,7 +58,7 @@ async function fetchSelectedData(selectedSources: DataSourceKey[]) {
                 ? DATA_SOURCES[source] 
                 : DATA_SOURCES[source].overview;
                 
-            const response = await fetch(process.env.API_URL + endpoint, { 
+            const response = await fetch(BACKEND_URL + endpoint, { 
                 headers: await headers()
             });
 
