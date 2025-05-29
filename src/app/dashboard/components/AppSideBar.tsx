@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, Building2, GalleryVerticalEnd, LayoutDashboard, Settings, TriangleAlert, User } from "lucide-react";
+import { BookOpen, Building2, GalleryVerticalEnd, LayoutDashboard, MessageSquare, Settings, TriangleAlert, User } from "lucide-react";
 
 import { NavMain } from "./nav-main";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarRail } from "@/components/ui/sidebar";
@@ -55,6 +55,12 @@ const data = {
             title: "Assets",
             url: "/dashboard/assets",
             icon: Building2,
+            collapsible: false,
+        },
+        {
+            title: "Chat",
+            url: "/dashboard/chat",
+            icon: MessageSquare,
             collapsible: false,
         },
     ],
