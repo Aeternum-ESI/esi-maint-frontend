@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
             permanent: false,
         },
     ],
-    /* config options here */
+    crossOrigin: "use-credentials",
 };
 
 export default nextConfig;

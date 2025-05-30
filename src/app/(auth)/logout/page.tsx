@@ -1,12 +1,15 @@
+'use client'
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { logout } from "@/app/actions/logout";
+import { useEffect } from "react";
 
-export default async function LogoutPage() {
-    const cookieStore = await cookies();
-                            cookieStore.delete("access_token");
+export default function LogoutPage() {
+    useEffect  (() => {
+        // Call the logout action to clear the access token
+        logout();
+    }, []);
     return (
         <div className="flex items-center justify-center min-h-screen bg-background p-4">
             <Card className="w-full max-w-md shadow-lg">

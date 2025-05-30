@@ -1,2 +1,2 @@
-const azure = false;
-export const BACKEND_URL = azure ? "http://52.138.223.60/backend" : "http://localhost:4000";
+const azure = true;
+export const BACKEND_URL = azure ? "https://api.esi-maint.com" : "http://localhost:4000";

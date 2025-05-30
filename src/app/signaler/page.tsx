@@ -8,12 +8,14 @@ async function Page() {
         method: "GET",
         auth: await getToken(),
     });
+    
     const categories = reponse.data?.data || [];
 
     const response2 = await $fetch("/assets", {
         method: "GET",
         auth: await getToken(),
     });
+    console.log(response2);
 
     const assets = response2.data?.data || [];
 
